@@ -1,0 +1,35 @@
+<form name="contactUsForm" ng-submit="contactUs(contactUsForm, contactInfo)" id="contactUsForm" novalidate>
+  <div class="row">
+    <div class="col-sm-3">
+      <div class="form-group">
+        <input type="search" name="name" class="form-control" placeholder="Name" ng-model="contactInfo.name" required ng-required="true">
+        <div class="text-CS text-center" ng-show="contactUsForm.name.$error.required && submitted">
+          <small class="text-CS">What's your name?</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="form-group">
+        <input type="email" name="email" class="form-control" placeholder="Email" ng-model="contactInfo.email" required ng-required="true">
+        <div class="text-CS text-center" ng-show="contactUsForm.email.$error.email && submitted">
+          <small class="text-CS">Doesn't look like a valid email.</small>
+        </div>
+        <div class="text-CS text-center" ng-show="contactUsForm.email.$error.required && submitted">
+          <small class="text-CS">What's your email address?</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <div class="form-group">
+        <input type="search" name="phone" class="form-control" placeholder="Phone" ng-model="contactInfo.phone" required ng-required="true">
+        <div class="text-CS text-center" ng-show="contactUsForm.phone.$error.required && submitted">
+          <small class="text-CS">What's your phone number?</small>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+
+      <button type="submit" class="btn btnSignUp btn-block">I'm interested</button>
+    </div>
+  </div>
+</form>

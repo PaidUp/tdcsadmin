@@ -1,0 +1,12 @@
+<div class="welcome" ng-if="isLoggedIn()">
+    <div class="container">
+        <div class="pull-left">
+            <ng-include src="leftBar">
+            </ng-include>
+        </div>
+        <div class="pull-right" ng-if="isUser()">
+            <ng-include src="rightBar">
+            </ng-include>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,57 @@
+@media screen and (max-width: 1200px) {
+  .contactUs{
+    display: block;
+    width: 100% !important;
+  }
+}
+
+.footer-bar {
+  padding: 30px;
+  color: inherit;
+  margin-bottom: 0;
+  background-color: #6C737C;
+  height: 100%;
+  width: 100%;
+  color: #a1acb5;
+  line-height: 56px;
+  font-size: 12px;
+}
+
+.footer-nav li{
+  float: left;
+  height: 30px;
+  width: auto;
+  margin-right: 10px;
+}
+.footer-nav a{
+  color: #a1acb5;
+}
+
+.footer-bar ul{
+  list-style-type: none;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.footer-bar li{
+  float: left;
+  line-height: normal;
+  width: 100%;
+}
+
+
+.footer-bar .contactUs{
+  background-image: url("/assets/images/landing/img_bg_contact.png");
+  width: 350px;
+  height: 200px;
+  float: left;
+
+}
+
+.footer-bar .contactUsDesc{
+  clear: none;
+  font-size: 24px;
+  color: #FFFFFF;
+  font-weight: 500;
+  margin-top: 40px;
+}

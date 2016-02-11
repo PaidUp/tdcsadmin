@@ -1,0 +1,99 @@
+
+
+<nav class="nav-bar navbar-default" role="navigation">
+  <!--div class='top-header text-center'>
+
+      <div class="socialHeader">
+        <a href="http://www.facebook.com/selectconcierge" target="_blank">
+          <img src="assets/images/facebook.svg" >
+        </a>
+        <a href="https://twitter.com/@selectconcierge" target="_blank">
+          <img src="assets/images/twitter.svg" >
+        </a>
+        <a href="https://www.instagram.com/selectconcierge" target="_blank">
+          <img src="assets/images/instagram.svg" >
+        </a>
+      </div>
+
+
+      <div class="salesPhone">
+        <a href="tel:(512)900-3643">Sales (512) 900-3643</a>
+      </div>
+      <div class="supportPhone">
+        <a href="tel:(855)764-3232">Support (855) 764-3232</a>
+      </div>
+
+  </div-->
+
+  <div class="container">
+
+    <div class="row">
+
+      <div class="navbar-header">
+        <button id="nav-button" class="navbar-toggle btn btn-default"
+          data-target=".navbar-collapse"
+          data-toggle="collapse"
+          type="button">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a ui-sref="main" class="navbar-brand"  ng-hide="isLoggedIn()">
+          <img src="assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+        </a>
+        <a ui-sref="athletes" class="navbar-brand"  ng-show="isLoggedIn()">
+          <img src="assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse mobile-right" id="nav-no-float">
+        <ul class="nav navbar-nav">
+
+          <li ng-show="!isLoggedIn()">
+            <ng-include src="'app/auth/login/auth.html'">
+            </ng-include>
+          </li>
+
+          <li ng-show="isLoggedIn()">
+            <hr class="visible-xs">
+            <div class="divider-vertical hidden-xs"></div>
+          </li>
+          <li class="dropdown" ng-show="isLoggedIn()">
+            <a href="" class="dropdown-toggle">
+              <span class="glyphicon glyphicon-user"></span>
+              {{currentUser.firstName + " " + currentUser.lastName}}
+              <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu" role="menu">
+              <li>
+                <a href="" ui-sref="user-account" ng-click="toggleMenu()" id="profile">
+                  <span class="glyphicon glyphicon-user"></span>
+                  Profile
+                </a>
+              </li>
+              <li ng-if="isAdmin()">
+                <a href="" ui-sref="schedule-admin" ng-click="toggleMenu()" id="schedule-admin">
+                  <span class="glyphicon glyphicon-shopping-cart"></span>
+                  Orders
+                </a>
+              </li>
+              <li ng-if="isAdmin()">
+                <a href="" ui-sref="organizations-admin" ng-click="toggleMenu()" id="organizations-admin">
+                  <span class="glyphicon glyphicon-briefcase"></span>
+                  Organizations
+                </a>
+              </li>
+              <li>
+                <a id="signout" href="#" ng-click="logout(); toggleMenu()">
+                  <span class="glyphicon glyphicon-off"></span>
+                  Sign Out
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>

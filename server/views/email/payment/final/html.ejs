@@ -1,0 +1,37 @@
+<% include ../../head %>
+                      <div id="headlineTextContact">
+                        <br>
+                        <br>
+                        <br>
+                        <p>
+                          Hey <strong><%= userFirstName %></strong>, <br>
+                          <br>
+                          <br>
+                          We were unable to process your payment
+                          <%if (accountLast4Digits) { %>
+                            on your account ending in <%= accountLast4Digits %>
+                          <% } %>
+                          for the amount of $ <%= amount %> today.
+                          <br>
+                          <br>
+                          Please reply to this email so we can work to resolve this issue or call (855) 764-3232.
+                          <br>
+                          <br>
+                          We understand these things happen sometimes.  Let's find the best way to get the payment back on track.<br>
+                          <br>
+                          <br>
+                          Do not hesitate to contact us if you have any questions.<br>
+                          <br>
+                          <br>
+                          <br>
+                          Convenience Select <br>
+                        </p>
+                      </div>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </td>
+              </tr>
+<% include ../../footer %>

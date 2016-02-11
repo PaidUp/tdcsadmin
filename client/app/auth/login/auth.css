@@ -1,0 +1,59 @@
+.btn-facebook {
+  color: #fff;
+  background-color: #3B5998;
+  border-color: #133783;
+}
+
+.btn-github {
+  color: #fff;
+  background-color: #fafafa;
+  border-color: #ccc;
+}
+
+.btn-account-type {
+    line-height: 50px;
+    height: 50px;
+    color: #ccc;
+    background-color: #fff;
+    border:1px solid #ccc;
+}
+
+
+/*.btn-account-type:hover {
+    color: #fff;
+    background-color: #FF805D;
+    border-color: #FF734D;
+}*/
+
+.btn-account-type.active {
+    color: #fff;
+    background-color: #FF805D !important;
+    border-color:1px solid #FF734D;
+}
+
+.msg-account-type{
+  border-style:solid ;
+  border-color:#FF805D;
+  border-width:1px;
+  padding-top:5px;
+  padding-left:5px;
+  padding-right:5px;
+}
+
+@media (min-width: 770px) {
+  .center-text-msg-team{
+    margin-top: 27%;
+  }
+  .center-text-msg-athlete{
+    margin-top: 10%;
+  }
+  .msg-account-type ul{
+    padding-left: 0px;
+  }
+}
+
+@media (max-width: 770px) {
+  .msg-account-type ul{
+    padding-left: 20px;
+  }
+}

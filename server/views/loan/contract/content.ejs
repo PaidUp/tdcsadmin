@@ -1,0 +1,813 @@
+
+<%if (contractData.isEmail) { %>
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<style>
+  .contract-block{
+    font-family: Verdana, sans-serif;
+    font-weight: 300;
+    font-size: 12px;
+  }
+  h3.hidden-print{
+    font-size: 24px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+  strong {
+    font-weight: 700;
+    font-family: Verdana, sans-serif;
+  }
+  span{
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 14px;
+    line-height: 1.42857143;
+  }
+  .contract {
+    margin-top: 20px;
+    padding: 30px 50px;
+    text-align: justify;
+  }
+  .clearfix{
+    clear: both;
+  }
+  .pull-left {
+    float: left !important;
+  }
+  div small {
+    font-size: 85%;
+  }
+  .pull-right {
+    float: right !important;
+    font-size: 85%;
+  }
+  .table {
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 12px;
+  }
+
+  table{
+    font-size: 12px;
+  }
+  thead {
+    display: table-header-group;
+    vertical-align: middle;
+    border-color: inherit;
+  }
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #000;
+  }
+  .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #000;
+  }
+  .text-center {
+    text-align: center;
+  }
+  .table-bordered {
+    border: 1px solid #000;
+  }
+  .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    border: 1px solid #000;
+  }
+  h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.1;
+    color: inherit;
+  }
+  .contract-btn {
+    width: 160px;
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    border: 2px solid #000;
+  }
+  table {
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+</style>
+
+<% } %>
+
+<div class="contract-block">
+
+  <%if (!contractData.isEmail) { %>
+
+    <h3 class="hidden-print">
+      <strong>Contract</strong>
+    </h3>
+
+    <span class="hidden-print">Please review the contract below. To view the full document, please scroll down.</span>
+
+  <% } %>
+
+<div class="contract bg-Block">
+	<div class="clearfix"></div>
+
+	<!-- contract -->
+	<small class="pull-left"><%= contractData.convenienceSelect.state %></small>
+	<small class="pull-right"><%= contractData.platform.date %></small>
+	<div class="clearfix">
+		<br>
+		<br>
+	</div>
+	<table class="width-100">
+		<tbody>
+			<tr>
+				<td class="text-left">
+					Account/Contract No:
+					<br>
+					<br>
+					<%if (contractData.platform.contractNo != undefined) { %>
+					<%= contractData.platform.contractNo %>
+					<% } %>
+				</td>
+				<td class="text-center" style="vertical-align: top;">
+					<strong>CONSUMER CREDIT DISCLOSURE PROMISSORY NOTE</strong>
+				</td>
+				<td class="text-right">
+					Date of Note:
+					<br>
+					<br>
+					<%= contractData.platform.dateofNote %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<br>
+	<table class="table">
+		<thead>
+			<td>Creditor/Lender:</td>
+			<td>Address:</td>
+			<td>City:</td>
+			<td>State:</td>
+			<td>Zip:</td>
+			<td>Phone:</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<%= contractData.convenienceSelect.creditor %>
+				</td>
+				<td>
+					<%= contractData.convenienceSelect.address %>
+				</td>
+				<td>
+					<%= contractData.convenienceSelect.city %>
+				</td>
+				<td>
+					<%= contractData.convenienceSelect.state %>
+				</td>
+				<td>
+					<%= contractData.convenienceSelect.zip %>
+				</td>
+				<td>
+					<%= contractData.convenienceSelect.phone %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<table class="table">
+		<thead>
+			<td>Borrower:</td>
+			<td>Address:</td>
+			<td>City:</td>
+			<td>State:</td>
+			<td>Zip:</td>
+			<td>Phone:</td>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					<%= contractData.client.borrower %>
+				</td>
+				<td>
+					<%= contractData.client.address %>
+				</td>
+				<td>
+					<%= contractData.client.city %>
+				</td>
+				<td>
+					<%= contractData.client.state %>
+				</td>
+				<td>
+					<%= contractData.client.zip %>
+				</td>
+				<td>
+					<%= contractData.client.phone %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>"I" and "me" means each person who signs as a Borrower. "You" means the Lender. The Lender is Convenience Select. "Service Provider" means the sports team.
+	<br>
+	<br>
+	<div class="text-center width-100">
+		<strong>FEDERAL TRUTH IN LENDING ACT ("TILA") DISCLOSURES</strong>
+	</div>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="25%">
+					<strong>ANNUAL PERCENTAGE RATE</strong>
+					<br>
+					<br>The cost of my credit as a yearly rate.
+					<br>
+					<br>
+					<%= contractData.platform.annualPercentageRate %> %
+				</td>
+				<td width="25%">
+					<strong>FINANCE CHARGE</strong>
+					<br>
+					<br>The dollar amount the credit will cost me.
+					<br>
+					<br>
+					$ <%= contractData.platform.financeCharge %>
+				</td>
+				<td width="25%">
+					<strong>Amount Financed</strong>
+					<br>
+					<br>The amount of credit provided to me on my behalf.
+					<br>
+					<br>
+					$ <%= contractData.platform.amountFinanced %>
+				</td>
+				<td width="25%">
+					<strong>Total of Payments</strong>
+					<br>
+					<br>The amount I will have paid after I have made all payments as scheduled.
+					<br>
+					<br>
+					$ <%= contractData.platform.totalOfPayments %>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>My payment schedule will be:
+	<br>
+	<br>
+	<table class="table">
+		<thead>
+      <tr>
+				<th width="30%">Number of Payments</th>
+				<th width="33%">Amount of Payments</th>
+				<th>When Payments are Due</th>
+			</tr>
+		</thead>
+		<tbody>
+
+      <% for(var i=0; i<contractData.platform.schedule.length; i++) {%>
+
+        <tr>
+          <td align="center">
+            <%= i+1 %>
+          </td>
+          <td align="center">
+            $<%= contractData.platform.schedule[i].installment.toFixed(2) %>
+          </td>
+          <td>
+            <%= contractData.platform.schedule[i].paymentDay %>
+          </td>
+        </tr>
+
+      <% } %>
+
+		</tbody>
+	</table>
+	<br>
+	<table>
+		<tbody>
+			<tr>
+				<td width="35%" valign="top">Security:</td>
+				<td>
+					You will have a security interest in the:
+					<br>✔ Recurring ACH Authorization
+					<br>✔ ACH Authorization for Returned Check Charge
+					<br>
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">Late Charge:</td>
+				<td>
+					If any part of a payment is unpaid for
+					<%= contractData.convenienceSelect.lateChargeDays %> days after it is due, the late charge will be
+					<%= contractData.convenienceSelect.lateChargePercentage %> of the scheduled payment.
+					<br>
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">Prepayment:</td>
+				<td>
+					If I pay off early, I may be entitled to a refund of part of the Finance Charge and I will not have to pay a penalty.
+					<br>
+					<br>
+				</td>
+			</tr>
+			<tr>
+				<td valign="top">Additional Information:</td>
+				<td>
+					See the contract documents for any additional information about nonpayment, default, any required repayment in full before the scheduled date, and prepayments refunds and penalties.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="50%">
+					ITEMIZATION OF THE FINANCE CHARGE
+					<br>
+					<br>1. Acquisition Charge: $0
+					<br>
+					<br>2. Installment Account Handling Charge:
+					$ <%= contractData.platform.installmentAccountHandlingCharge %>
+				</td>
+				<td>
+					ITEMIZATION OF AMOUNT FINANCED
+					<br>
+					<br>1. Previous Account: N/A
+					<br>
+					<br>2. Late Charge on Previous Account: $0
+					<br>
+					<br>3. Previous Balance: $0
+					<br>
+					<br>4. Less Refund: $0
+					<br>
+					<br>5. Net Balance Renewed: $0
+					<br>
+					<br>6. Cash to Me: $0
+					<br>
+					<br>7. Amount Financed:
+					$ <%= contractData.platform.amountFinanced %>
+					<br>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>You deliver the proceeds of this loan directly to the Bank Account of the Service Provider via an ACH Credit, unless the proceeds of this loan are used to repay an obligation to you. I hereby voluntarily authorize you and your successors or assigns to initiate an automatic credit entry to the banking account I elect for this purpose during the application process. To complete my loan, I understand that I must electronically sign this Promissory Note by clicking the "I agree" button below. You will then approve or deny the Promissory Note within three business days of the date I sign the Promissory Note. If you approve the Promissory Note, then you will (i) fund the loan in accordance with this Promissory Note, (ii) use commercially reasonable efforts to credit the proceeds from this Promissory Note into the bank account of the Service Provider on or before
+	<%= contractData.platform.effectiveDate %> ("Effective Date"), unless this is a refinancing transaction and the proceeds are applied to pay off your outstanding loan with you. If this is a refinancing, the Effective Date will be the date of this Promissory Note. Unavoidable delays as a result of inadvertent processing errors and/or force majeure may extend the time for the deposit. You will begin to earn the Finance Charge on the Effective Date.
+	<br>
+	<br>I promise to upload to you all Supporting Materials required by you, if any, including but not limited to bank statements, and any other materials requested by you to process the loan (collectively "supporting Materials"). I promise that you will receive the Supporting Materials list above by the end of the next business day after the date that I sign this Promissory Note. You are relying on my promise in providing disclosures to me. I authorize you to verify all information provided by me. If there is any missing or erroneous information, I authorize you to verify and correct such information. If this Promissory Note is refinancing an existing agreement with you, then the provisions herein referring to Supporting Materials do not apply since you should already be in possession of such materials.
+	<br>
+	<br>I promise to pay the Total of Payments to the order of you, the Lender. I will make the payments at your address above. I will make the payments on the dates and in the amounts shown in the Payment Schedule. If I don't pay all of the payment within
+	<%= contractData.convenienceSelect.paymentWithin %> days after it is due, you can charge me a late charge. The late charge will be
+	<%= contractData.convenienceSelect.lateChargePercentage %> of the scheduled payment. If I don't pay all I owe when the final payment becomes due, I will pay interest on the amount that is still unpaid. That interest will be at a rate of
+	<%= contractData.convenienceSelect.interestRate %> and will begin the day after the final payment becomes due.
+	<br>
+	<br>
+  You have disclosed to me that, pursuant to Comment 2(a)(25) of the Federal Reserve Board Official Staff Commentary to Regulation Z § 226.2, your interest in any ACH Authorizations and/or Remotely Created Checks I have agreed to are a security interest for Truth-in-Lending purposes only, because federal and Texas law do not clearly address whether your interest in ACH Authorizations and/or Remotely Created Checks are a "security interest." I understand that the federal Truth-in-Lending disclosures are not intended to create a security interest under Texas law and are will not be evidence of or an admission by you that this transaction is anything other than a consumer installment loan authorized by Texas law.
+	<br>
+	<br>I can make a whole payment early. The acquisition charge on this loan will not be refunded if I pay off early. If I pay all I owe before the beginning of the last monthly period, I will save part of the installment account handling charge . You will figure the amount I save by the sum of the periodic balances method. This method is explained in the Finance Commission rules. You don't have torefund or credit any amount less than $1.00.
+	<br>
+	<br>If I ask for more time to make any payment and you agree, I will pay more interest to extend the payment. The extra interest will be figured under the Finance Commission rules. I agree to pay you a fee of up to
+	<%= contractData.convenienceSelect.agreeToAFeedOf %> for a returned check. You can add the fee to the amount I owe or collect it separately.
+	<br>
+	<br>I authorize you to make a one-time electronic fund transfer from the bank account I provide to you during the application process to collect any returned check fee. I authorize you to initiate such automatic debit entry to my bank account that I provide to you during the application process; I also authorize you to re-initiate such ACH debit a total of <%= contractData.convenienceSelect.reInitDebitTimes %> additional times (if necessary) for the same amount if the ACH debit is dishonored. I understand that I may terminate this authorization by notifying you in such time and manner as to afford you and your bank a reasonable opportunity to act on it. I also authorize you to verify all of the information I have provided, including past and/or current information. If there is any missing or erroneous information regarding my bank, bank routing number, or account number, then I authorize you to verify and correct such information. I acknowledge that the origination of this ACH transaction with my account must comply with the provisions of U.S. law.
+	<br>
+	<br>If a check is returned unpaid for insufficient funds, you may re-present the check electronically. I understand that in the ordinary course of business the check will not be provided to me with my bank statement, but I can retrieve a copy by contacting my financial institution.
+	<br>
+	<br>If I break any of my promises in this document, you can demand that I immediately pay all that I owe. You can also do this if you in good faith believe that I am not going to be willing or able to keep all of my promises. I agree that you don't have to give me notice that you are demanding or intend to demand immediate payment of all that I owe.
+	<br>
+	<br>If I am giving collateral for this loan, I will see the separate security agreement for more information and agreements.
+	<br>
+	<br>I will keep all of my promises in this document. If there is more than one Borrower, each Borrower agrees to keep all of the promises in the loan document. I promise that all information I gave you is true.
+	<br>
+	<br>If you don't enforce your rights every time, you can still enforce them later. Federal law and Texas law apply to this contract. I don't have to pay interest or other amounts that are more than the law allows.
+	<br>
+	<br>
+	<br>
+	<strong>Governing Law and Assignment</strong>. Texas law governs this Promissory Note, except the Federal Arbitration Act 9 U.S.C Sections 1-16 ("FAA") governs the Jury Trial Waiver and Arbitration Clause. You may assign or transfer this Promissory Note or any of your rights. Ownership of this Promissory Note (and rights thereunder, including with respect to principal and interest) shall be registered in a record of ownership maintained by you, acting solely for this purpose as my irrevocably appointed agent. Any assignment or transfer of, or participation in, this Promissory Note (or rights thereunder) will be valid only if and when it is registered in such record of ownership. I shall treat each person whose name is registered in the record of ownership as the owner, assignee or participant, as applicable, for all purpose of this Promissory Note, including, but not limited to, the rights to payments of principal and interest. This Promissory Note shall not constitute a negotiable instrument.
+	<br>
+	<br>
+	<br>
+	<h4 class="text-center width-100">
+          <strong>JURY TRIAL WAIVER AND ARBITRATION CLAUSE.</strong>
+        </h4>
+	By signing below, I agree to the Jury Trial Waiver and Arbitration Clause ("Clause"):
+	<br>
+	<br>
+	<div class="text-center width-100">
+		<strong>Background and Scope.</strong>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="25%">
+					What is arbitration?
+				</td>
+				<td width="25%">
+					An alternative to court.
+				</td>
+				<td width="50%">
+					In arbitration, a third party ("Arbiter") solves Disputes in a hearing ("hearing"). I, related third parties, and you, waive the right to go to court. Such parties waive jury trials.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Is it different from court and jury trials?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					The hearing is private and less formal than court. Arbiters may limit pre-hearing fact finding, called "discovery." The decision is final. Courts rarely overturn Arbiters.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Who does the Clause cover?
+				</td>
+				<td>
+					Me, You, and Others.
+				</td>
+				<td>
+					This Clause governs the parties, their heirs, successors, assigns, and third parties related to any Dispute.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Which Disputes are covered?
+				</td>
+				<td>
+					All Disputes.
+				</td>
+				<td>
+					In this Clause, the word "Disputes" has the broadest possible meaning. This Clause governs all "Disputes" involving the parties. This includes all claims even indirectly related to my application and agreements with you. This includes claims related to information I previously gave you. It includes all past agreements. It includes extensions, renewals, refinancings, or payment plans. It includes claims related to collections, privacy, and customer information. It includes claims related to setting aside this Clause. It includes claims about the Clause's validity and scope. It includes claims about whether to arbitrate.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Am I waiving rights?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					I waive my rights to:
+					<br>
+					<ol>
+						<li>Have juries solve Disputes.</li>
+						<li>Have courts, other than small-claims courts, solve Disputes.</li>
+						<li>Serve as a private attorney general or in a representative capacity.</li>
+						<li>Be in a class action.</li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Am I waiving class action rights?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					<h4><strong>COURTS AND ARBITERS WON'T ALLOW CLASS ACTIONS</strong></h4>. I waive my rights to be in a class action, as a representative and a member. Only individual arbitration, or small-claims courts, will solve Disputes. I waive my right to have representative claims. <strong>Unless reversed on appeal, if a court invalidates this waiver, the Clause will be void</strong>.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					What law applies?
+				</td>
+				<td>
+					The Federal Arbitration Act ("FAA").
+				</td>
+				<td>
+					This transaction involves interstate commerce, so the FAA governs. If a court finds the FAA doesn't apply, and the finding can't be appealed, then my state's law governs. The Arbiter must apply substantive law consistent with the FAA. The Arbiter must follow statutes of limitation and privilege claims.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Can the parties try to solve Disputes first?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					We can try to solve Disputes if I call you at
+					<%= contractData.clientData.DisputesTelephoneNumber %>. If this doesn't solve the Dispute, I can mail you notice, within 100 days of the Dispute date. In my notice, I will tell you the details of the Dispute and how I want to solve it. You will try to solve the Dispute. If you make a written offer ("Settlement Offer"), I can reject it and arbitrate. If we don't solve the Dispute, either party may start arbitration. To start arbitration, I must contact an Arbiter or arbitration group listed below. No party will disclose settlement proposals to the Arbiter during arbitration.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					How should I contact you?
+				</td>
+				<td>
+					By mail.
+				</td>
+				<td>
+					I can send mail to you at:
+					<%= contractData.clientData.canSendMailAt %>. I can call you at
+					<%= contractData.clientData.canCallYouAt %> or use certified mail to confirm receipt.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Can small-claims court solve some Disputes?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					Each party has the right to arbitrate, or to go to small-claims court if the small-claims court has the power to hear the Dispute. Arbitration will solve all Disputes that the small-claims court does not have the power to hear. If there is an appeal from small-claims court, or if a Dispute changes so that the small-claims court loses the power to hear it, then the Dispute will only be heard by an Arbiter.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Do other options exist?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					Both parties may use lawful self-help remedies. This includes set-off or repossession and sale of any collateral. Both parties may seek remedies which don't claim money damages. This includes pre- judgment seizure, injunctions, or equitable relief.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Will this Clause continue to govern?
+				</td>
+				<td>
+					Yes, unless otherwise agreed.
+				</td>
+				<td>
+					The Clause stays effective unless the parties sign an agreement stating it doesn't. The Clause governs if I rescind the transaction. It governs if I default, renew, prepay, or pay. It governs if my contract is discharged through bankruptcy. The Clause remains effective, despite a transaction's termination, amendment, expiration, or performance.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<div class="text-center width-100">
+		<strong>Process.</strong>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="25%">
+					How does arbitration start?
+				</td>
+				<td width="25%">
+					Mailing a notice.
+				</td>
+				<td>
+					Either party may mail the other a request to arbitrate, even if a lawsuit has been filed. The notice should describe the Dispute and relief sought. The receiving party must mail a response within 20 days. If I mail the demand, I may choose the arbitration group. Or, my demand may state that I want the parties to choose a local Arbiter. If related third parties or you mail the demand, I must respond in 20 days. My response must choose an arbitration group or propose a local Arbiter. If it doesn't, you may choose the group.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Who arbitrates?
+				</td>
+				<td>
+					AAA, JAMS, or an agreed Arbiter.
+				</td>
+				<td>
+					I may select the American Arbitration Association ("AAA") (1-800- 778-7879) http://www.adr.org (http://www.adr.org) or JAMS (1-800- 352-5267) http://www.jamsadr.com (http://www.jamsadr.com). The parties may also agree in writing to a local attorney, retired judge, or Arbiter in good standing with an arbitration group. The Arbiter must arbitrate under AAA or JAMS consumer rules. I may get a copy of these rules from such group. Any rules that conflict with any of your agreements with me don't apply. If these options aren't available, and the parties can't agree on another, a court may choose the Arbiter. Such Arbiter must enforce my agreements with you, as they are written.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Will the hearing be held nearby?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					The Arbiter will order the hearing within 30 miles of my home or where the transaction occurred.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					What about appeals?
+				</td>
+				<td>
+					Appeals are limited.
+				</td>
+				<td>
+					The Arbiter's decision will be final. A party may file the Arbiter's award with the proper court. Arbitration will solve appeals of a small- claims court judgment. A party may appeal under the FAA. If the amount in controversy exceeds $ 10,000.00, a party may appeal the Arbiter's finding. Such appeal will be to a three-Arbiter panel from the same arbitration group. The appeal will be de novo, and solved by majority vote. The appealing party bears appeal costs, despite the outcome.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<div class="text-center width-100">
+		<strong>Arbitration Fees and Awards.</strong>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="25%">
+					Will you advance Arbitration Fees?
+				</td>
+				<td width="25%">
+					Yes, but I pay my costs.
+				</td>
+				<td>
+					You will advance my "Arbitration Fees" if I ask you to. This includes filing, administrative, hearing, and Arbiter's fees. I pay my attorney fees and other expenses.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Are damages and attorney fees possible?
+				</td>
+				<td>
+					Yes, if allowed by law.
+				</td>
+				<td>
+					The Arbiter may award the same damages as a court. Arbiters may award reasonable attorney fees, and expenses, if allowed by law.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Will I pay Arbitration Fees if I win?
+				</td>
+				<td>
+					No.
+				</td>
+				<td>
+					If the Arbiter awards me funds, I don't reimburse you the Arbitration Fees.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Will I ever pay Arbitration Fees?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					If the Arbiter doesn't award me funds, then I must repay the Arbitration Fees. If I must pay Arbitration Fees, the amount won't exceed state court costs.
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Can an award be explained?
+				</td>
+				<td>
+					Yes.
+				</td>
+				<td>
+					A party may request details from the Arbiter, within 14 days of the ruling. Upon such request, the Arbiter will explain the ruling in writing.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>
+	<div class="text-center width-100">
+		<strong>Other Options.</strong>
+	</div>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td width="25%">
+					If I don't want to arbitrate, can I still get a transaction?
+				</td>
+				<td width="25%">
+					Yes. I can get your services and decide not to arbitrate.
+				</td>
+				<td>
+					Consider these choices:
+					<br>
+					<ol>
+						<li><strong>Informal Dispute Resolution</strong>. Contact you, and attempt to settle any Disputes.</li>
+						<li><strong>Small-claims Court</strong>. Seek to solve Disputes in small-claims court, within state law limits.</li>
+						<li><strong>Opt-Out of Arbitration</strong>. Sign and then timely opt-out.</li>
+					</ol>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					Can I opt-out of the Clause?
+				</td>
+				<td>
+					Yes. Within 60 days.
+				</td>
+				<td>
+					I can write you within 60 calendar days of signing my agreement to opt-out of the Clause for that agreement. I must list my name, address, account number and date. I must also list that I "opt out." If I opt out, it will only apply to that agreement.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>
+					<h4><strong>NOTICE OF FURNISHING NEGATIVE INFORMATION. YOU MAY REPORT INFORMATION ABOUT MY ACCOUNT TO CREDIT BUREAUS. LATE PAYMENTS, MISSED PAYMENTS, OR OTHER DEFAULTS ON MY ACCOUNT MAY BE REFLECTED IN MY CREDIT REPORT.</strong></h4>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>
+					<div class="text-center width-100">
+						<strong>Payment Method</strong>
+					</div>
+					<br>I understand that I may choose to repay by either of the following options below. The payment method checked below is based on my choice in the payment selection above. I understand that you will process my payments provided in the Payment Schedule above by the method checked below.
+					<br>
+					<br>✔ .<strong>Direct ACH Debit</strong>. By selecting the Direct ACH Debit option, I hereby authorize you to initiate an electronic debit to the checking account I elect for this purpose during the application process, hereinafter called "My Bank Account", at my depository financial institution that I identify during the application process, hereinafter called "Depository". I authorize you to electronically debit My Bank Account for the <strong>full payment or any lesser amount owing</strong> on each scheduled payment date or thereafter. I also authorize you to re-initiate such ACH debit a total of
+					<%= contractData.convenienceSelect.reInitDebitTimes %> additional times (if necessary) for the same amount if the ACH debit is dishonored due to insufficient funds or uncollected funds. I acknowledge that the origination of an electronic debit to my account must comply with the provisions of U.S. law.
+					<br>
+					<br>
+					<ul style="list-style:none;">
+						<li>
+							<strong>My Bank Account Information</strong>. If there is any missing or erroneous information regarding Depository or My Bank Account then I authorize you to verify and correct the information. I acknowledge that the account that I identify during the application process on which this authorization is drawn is a legitimate, open, and active account and that I have the right to initiate (and authorize you to initiate) electronic debits from My Bank Account.
+						</li>
+						<br>
+						<li>
+							<strong>Dates</strong>. I acknowledge that this authorization is an authorization to initiate an electronic debit to My Bank Account on or after each scheduled payment date.
+						</li>
+						<br>
+						<li>
+							<strong>Termination</strong>. I understand and acknowledge that I may terminate this authorization by notifying you in such time and manner as to afford you and Depository a reasonable opportunity to act on it.
+						</li>
+						<br>
+						<li>
+							<strong>Partial Prepayments</strong>. If I make any partial prepayments, then I authorize you to vary the amount of the electronic debit as needed to reflect those partial prepayments.
+						</li>
+						<br>
+						<li>
+							<strong>Range of Debits and Notice of Variation</strong>. Your debits to my account will be in an amount between the amount of the scheduled payment and the Total of Payments plus any additional charges and/or fees incurred under this Promissory Note, or a lesser amount owing based on my payment history. If a debit amount will fall outside of the specified range, then you will mail me notification of the amount of the debit and the date on or after which you will debit such amount, at least
+							<%= contractData.convenienceSelect.calendarDaysAferDebit %> calendar days before the scheduled debit.
+						</li>
+						<br>
+						<li>
+							<strong>Additional Amounts</strong>. I further authorize you to initiate separate electronic debits to My Account for any applicable late charge or deferral charge provided in this Promissory Note. If a debit amount for any applicable late charge or deferral charge will fall outside the specified range, then you will mail me notification of the amount of the debit and the date on or after which you will debit such amount, at least
+							<%= contractData.convenienceSelect.calendarDaysAferDebit %> calendar days before the scheduled debit.
+						</li>
+						<br>
+						<li>
+							<strong>Full Force and Effect</strong>. This authorization will remain in full force and effect until you have received written notification from me of its termination in such time and in such manner as to afford you and Depository a reasonable opportunity to act on it.
+						</li>
+						<br>
+						<li>
+							<strong>Optional Electronic Debit Authorization. I UNDERSTAND THAT I AM NOT REQUIRED TO SELECT THIS ELECTRONIC DEBIT AUTHORIZATION TO ENTER A TRANSACTION WITH YOU. THIS ELECTRONIC DEBIT AUTHORIZATION IS FOR MY CONVENIENCE IN PAYING. BY SELECTING THIS OPTION, I ACKNOWLEDGE THAT I AM VOLUNTARILY CHOOSING TO PAY ELECTRONICALLY.</strong>
+						</li>
+					</ul>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<td>
+					Cell Phone Number:
+					<%= contractData.convenienceSelect.CellPhoneNumber %>
+					<br>
+					<br>Transaction Robocalls (Including SMS Text Messages) to My Cellular Phone. Receipt of cellular phone calls (including text messages) may be subject to charges from my service provider. If I have listed a cell phone above or I give you an updated cell phone number, then I authorize you to call (including sending SMS text messages) using an automatic telephone dialing system or prerecorded message to my cell phone number to provide account information and services. You may follow up in order to assist me with completion of my application, address any technical problems associated in completing my application, notification of transaction approval, payment reminders and collection efforts. If I do not want to receive robocalls (including SMS text messages) about my transaction I can unsubscribe by sending an email to
+					<%= contractData.convenienceSelect.unsubscribeEmailTo %> with the subject line "STOP Transaction Robocalls" or by calling a customer service representative at
+					<%= contractData.convenienceSelect.customerServiceTelephoneNumber %> or following the opt out procedures in the message.
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<br>
+	<br>Any change to this agreement has to be in writing. Both you and I have to sign it. You can mail any notice to me at my last address in your records. Your duty to give me notice will be satisfied when you mail it.<br />
+	<br>Call the Consumer Credit Hotline or write for credit information or assistance with credit problems: Office of Consumer Credit Commissioner, 2601 North Lamar Boulevard, Austin, Texas 78705 -4207; www.occc.state.tx.us; (800) 538 -1579.
+	<br>
+	<br>
+	<strong>Customer Signature:</strong>
+	<br>
+	<br>Name:
+	<%= contractData.client.borrower %>
+	<br>Last 4 SSN:
+	<%= contractData.client.last4ssn %>
+	<br>Signed At:
+	<%= contractData.convenienceSelect.signedAt %>
+	<br>
+	<br>
+	<div class="contract-btn">
+		<strong>✔ I AGREE</strong>
+	</div>
+	<!-- contract -->
+
+</div>
+</div>

@@ -1,0 +1,179 @@
+.thing-form {
+    margin: 20px 0;
+}
+
+#banner {
+    border-bottom: none;
+    margin-top: -20px;
+}
+
+#banner h1 {
+    font-size: 60px;
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.hero-unit {
+    position: relative;
+    padding: 30px 15px;
+    color: #F5F5F5;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    background: #4393B9;
+}
+
+.footer {
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 70px;
+    border-top: 1px solid #E5E5E5;
+}
+.bannerHome{
+  width: 100%;
+  min-height: 540px;
+  padding-top: 150px;
+  background-position: top center;
+  background-image: url(/assets/images/bannerHome.jpg);
+  background-size: cover;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 300;
+}
+.titleBannerHome{
+    font-size: 48px;
+}
+.home-button{
+  width: 230px;
+}
+.whatchVideo{
+    width: 318px;
+    height: 78px;
+    line-height: 78px;
+    border: 1px solid #FF805D;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.howItWorks{
+  margin-bottom: 30px;
+  text-align: center;
+}
+.howItWorks h2{
+  font-weight: 300;
+}
+.howItWorks .item{
+  font-size: 18px;
+}
+.howExplanation{
+  font-size: 30px;
+  margin-bottom:10px;
+}
+.bannerHomeLoan{
+  min-height: 400px;
+  width: 100%;
+  color: #ffffff;
+  font-size: 18px;
+  background-image: url(/assets/images/bannerHomeLoan_bg.jpg);
+  background-size: cover;
+}
+.bannerHomeLoan .title{
+  padding: 25px 0px 10px 0px;
+  text-align: center;
+  border-bottom: 1px solid #ffffff;
+  margin-bottom: 30px;
+}
+.bannerHomeLoan .item1, .bannerHomeLoan .item2, .bannerHomeLoan .item3{
+  background-position: 10px 0px;
+  background-repeat: no-repeat;
+  padding: 0px 0px 0px 95px;
+  min-height: 170px;
+}
+.bannerHomeLoan .item1 h2, .bannerHomeLoan .item2 h2, .bannerHomeLoan .item3 h2{
+  color: #494c4e;
+  margin-top: 0px;
+}
+.bannerHomeLoan .item1{
+  background-image: url(/assets/images/loanHome1_bg.png)
+}
+.bannerHomeLoan .item2{
+  background-image: url(/assets/images/loanHome2_bg.png)
+}
+.bannerHomeLoan .item3{
+  background-image: url(/assets/images/loanHome3_bg.png)
+}
+.bannerHomeLoan .btnSignUp{
+  background-color: #ffffff;
+  color: #ff805d;
+  border-color: #ffffff;
+  border-bottom-color: #ea9309;
+}
+.contactUsHome{
+  padding: 30px 0px;
+  width: 100%;
+  height: auto;
+  background-color: #6c737c;
+  color: #ffffff;
+}
+.contactUsTitle{
+  font-size: 36px;
+  color: #ffffff;
+}
+.socialNetworks{
+  width: auto;
+  height: 24px;
+  float: right;
+  margin-top: 15px;
+}
+
+.socialNetworksHeader{
+  width: auto;
+  height: 24px;
+  float: right;
+  margin-top: 15px;
+}
+
+.socialNetworks a{
+  display: block;
+  float: left;
+  width: 24px;
+  height: 24px;
+  margin-left: 20px;
+  background-position: 0px 0px;
+}
+.socialNetworks a:hover{
+  background-position: 0px -24px;
+}
+.instagramBlack{
+  background-image: url(/assets/images/instagramBlack.png);
+}
+.facebookBlack{
+  background-image: url(/assets/images/facebookBlack.png);
+}
+.twitterBlack{
+  background-image: url(/assets/images/twitterBlack.png);
+}
+
+.checkAthleteHome{
+  min-height: 320px;
+  width: 100%;
+  background-image: url(/assets/images/checkAthleteHome_bg.jpg);
+  background-size: cover;
+  color: #ffffff;
+  text-align: justify;
+}
+/* .checkAthleteHome .col-sm-6{
+  min-height: 500px;
+} */
+.checkAthleteHomeText{
+  margin-top: 120px;
+}
+.checkAthleteHome img{
+  margin-top: 30px;
+  width: 100%;
+}
+
+@media screen and (max-width: 990px) {
+  .transparency {
+    display: none;
+  }
+}

@@ -1,0 +1,117 @@
+.welcome {
+    background-color: #f9f9f9;
+    min-height: 38px;
+    width: 100%;
+
+}
+
+.welcome .breadcrumb {
+    background-color: inherit;
+}
+
+/** modal **/
+.uploadPicture{
+    width: 140px;
+    height: 140px;
+    padding-top: 50px;
+    border: 1px solid #ECEEEF;
+    color: #ECEEEF;
+    margin: 15px auto;
+}
+.radioModal{
+    width: 49%;
+    height: 42px;
+    position: relative;
+    padding: 0px;
+    margin: 0px;
+}
+.radioModal+.radioModal{
+    margin-left: 0px;
+}
+.radioModal input[type=radio]{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 40px;
+    opacity: 0;
+}
+.radioModal>input[type="radio"]:checked+div{
+    color: #fff;
+    background-color: #FF805D;
+    border-color: #FF734D;
+    border-bottom-color: #C65C43;
+}
+.radioModal div{
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    color: #CCC;
+    border: 1px solid #ECEEEF;
+  background-color: #ffffff;
+}
+@media (min-width: 768px){
+    .modal-sm {
+        width: 320px;
+    }
+}
+@media (max-width: 767px){
+    .modal-sm {
+        width: 100%;
+    }
+    .modal-dialog.modal-sm{
+        margin: 0px;
+    }
+}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.form-inline .form-group{
+    width: 30%;
+    margin: 0px 1.6%;
+    float: left;
+}
+.form-inline .form-control{
+    width: 100%;
+}
+.btnModalAcept {
+    color: #fff;
+    background-color: #FF805D;
+    border-color: #FF734D;
+    border-bottom-color: #C65C43;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+.btnModalCancel {
+    color: #ccc;
+    background-color: #F5F5F5;
+    border-color: #F6F6F6;
+    border-bottom-color: #CCCCCC;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+}
+/** modal **/
+
+.btn.bar-btn {
+    background-color: #f9f9f9;
+    border-color: #f9f9f9;
+    color: #CD6C49;
+    font-size: 11px;
+    padding: 0;
+    height: 38px;
+    line-height: 38px;
+    letter-spacing: -0.03em;
+}
+
+.bar-btn .fa-plus {
+    color: #CD6C49;
+}

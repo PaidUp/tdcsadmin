@@ -1,0 +1,12 @@
+<div class="user-tabs" ng-controller="UserBarCtrl">
+  <tabset>
+
+    <tab ng-repeat="tab in tabs"
+          heading="{{tab.heading}}"
+          ui-sref="{{tab.state}}"
+          active="tab.active"
+         ng-if="validate(tab.role)">
+
+    </tab>
+  </tabset>
+</div>

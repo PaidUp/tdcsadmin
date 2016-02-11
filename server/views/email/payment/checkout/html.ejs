@@ -1,0 +1,97 @@
+
+<% include ../../head %>
+                      <div id="headlineText">
+
+                            <br />
+                            <br />
+                            <br />
+                            <p>
+                              Thanks for your order!
+                            </p>
+                            <!-- datos de orden -->
+                            Order Id: <%= orderId %>
+                            <br />
+                            <br />
+                        Your order for the <%= product%> team has been received.
+
+                        <br></br>
+                        We will charge the account on file ending in <%= last4Digits %> on the following schedule:
+                        <br />
+                        <br />
+                        <% for(var i=0; i < schedules.length; i++) {
+                          var nextPaymentDue = new Date(schedules[i].nextPaymentDue);
+                        %>
+                        <%= nextPaymentDue.getMonth()+1 %>/<%= nextPaymentDue.getDate() %>/<%= nextPaymentDue.getFullYear() %>: $<%= schedules[i].price %><br>
+                        <br />
+                            <% } %>
+                            Total: $ <%= amount %>
+                            <% if(paymentMethod === 'directdebit' && accountStatus === 'new') { %>
+                            <br />
+                            <br />
+                            Before we can charge you, we must first verify that you are the owner of the bank account provided. In a few days check your bank statement and find two small deposits.<br><br>
+                            Once received, please visit convenienceselect.com and confirm your account so we can get started.<br><br>
+                            If you have any questions or issues, please reply to this email or contact us at 855.764.3232.<br><br>
+                            <% } %>
+                            <br />
+                            <br />
+                        Reply to this email if you have any questions.
+                        <br />
+                            <br />
+                        Convenience Select
+                            <br />
+                            <!-- datos de orden -->
+                          </div>
+                        </td>
+      <!--                  <td class="w30" width="30"></td>-->
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </td>
+              </tr>
+
+              <% if(typeof token != "undefined") { %>
+
+                <tr>
+                  <td height="30" bgcolor="#ffffff"></td>
+                </tr>
+
+                <tr id="simple-content-row">
+                  <td bgcolor="#ffffff">
+                    <table align="left" class="tableEmail" cellpadding="0" cellspacing="0" border="0">
+                      <tbody>
+                        <tr>
+                          <!-- <td class="w30" width="30"></td> -->
+                          <td>
+                            <repeater>
+
+                              <layout label="Text only">
+                                <table class="tableEmail" cellpadding="0" cellspacing="0" border="0">
+                                  <tbody>
+                                    <tr>
+                                      <td class="activateUrl">
+                                        <!-- If you can't see this email correctly <a href="">click here</a> -->
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td height="10"></td>
+                                    </tr>
+                                  </tbody></table>
+                              </layout>
+
+                            </repeater>
+                          </td>
+                          <!-- <td class="w30" width="30"></td> -->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td height="15" bgcolor="#ffffff"></td>
+                </tr>
+
+              <% } %>
+
+<% include ../../footer %>

@@ -1,0 +1,243 @@
+<div class="container">
+  <form name="accountForm" ng-submit="updateAccount(accountForm)" novalidate>
+    <br>
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2">
+
+        <div class="row bg-Block" ng-form name="profileForm">
+          <div class="col-sm-12">
+            <h3 class="text-CS">Profile</h3>
+          </div>
+          <div class="col-sm-6 col-sm-push-6">
+            <img src="/assets/images/avatar.jpg" alt="" class="img-circle center-block">
+          </div>
+
+          <div class="col-sm-6 col-sm-pull-6">
+            <div class="form-group">
+              <label>First name</label>
+              <input type="text" name="firstName" class="form-control" placeholder="First name" ng-model="user.firstName" ng-maxlength="128" required ng-required="true" ng-pattern="/^[a-zA-Z\s]*$/">
+              <div class="text-CS text-center" ng-show="profileForm.firstName.$error.required && submitted">
+                <small class="text-CS">First Name is required</small>
+              </div>
+              <div class="text-CS text-center" ng-show="profileForm.firstName.$error.maxlength && submitted">
+                <small class="text-CS">First Name exceeds 128 characters</small>
+              </div>
+              <div class="text-CS text-center" ng-show="profileForm.firstName.$error.pattern && submitted">
+                <small class="text-CS">First Name should only contain letters</small>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>Last name</label>
+              <input type="text" name="lastName" class="form-control" placeholder="Last name" ng-model="user.lastName" ng-maxlength="128" required ng-required="true" ng-pattern="/^[a-zA-Z\s]*$/">
+              <div class="text-CS text-center" ng-show="profileForm.lastName.$error.required && submitted">
+                <small class="text-CS">Last Name is required</small>
+              </div>
+              <div class="text-CS text-center" ng-show="profileForm.lastName.$error.maxlength && submitted">
+                <small class="text-CS">Last Name exceeds 128 characters</small>
+              </div>
+              <div class="text-CS text-center" ng-show="profileForm.lastName.$error.pattern && submitted">
+                <small class="text-CS">Last Name should only contain letters</small>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" name="email" class="form-control" placeholder="Email" ng-model="user.email" required ng-required="true">
+              <div class="text-CS text-center" ng-show="profileForm.email.$error.email && submitted">
+                <small class="text-CS">Not a valid email.</small>
+              </div>
+              <div class="text-CS text-center" ng-show="profileForm.email.$error.required && submitted">
+                <small class="text-CS">What's your email address?</small>
+              </div>
+              <div class="text-center" ng-show="emailFocus">
+                <br>
+                <small>Your email will be your user name for future login.</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="row bg-Block inputWIcons" ng-form name="passwordForm">
+          <div class="col-sm-12">
+            <h3 class="text-CS">Update Password</h3>
+          </div>
+          <div class="col-sm-6">
+            <label>Enter Old Password</label>
+            <a class="pull-right" ng-click="modal.showContent('forgotPassword'); modal.openModal()">Forgot password?</a>
+            <div class="form-group has-feedback" ng-class="{ 'has-success': passwordForm.password.$valid && submitted, 'has-error': passwordForm.password.$invalid && submitted }">
+              <input type="password" name="oldPassword" class="form-control" placeholder="Old password" ng-model="user.password"/>
+              <i class="iconInputLeft fa fa-lock"></i>
+            </div>
+            <label>Create New Password</label>
+            <password password="user.newPassword" confirm="user.confirmNewPassword" form="accountForm"></password>
+          </div>
+        </div>
+
+        <br>
+
+        <div ng-if="false" class="row bg-Block">
+          <div class="col-sm-12">
+            <h3 class="text-CS">Contact Info</h3>
+          </div>
+          <div class="col-sm-6" ng-form name="shippingPhoneForm">
+            <div class="form-group" ng-class="{ 'has-error': shippingPhoneForm.phone.$invalid && shippingPhoneForm.$dirty && submitted }">
+              <label>Phone number</label>
+              <input type="text" class="form-control" name="phone" placeholder="Phone number" ng-model="shipping.phone" required ng-required="true" ng-pattern="/^(?:\(\d{3}\)|\d{3})[- ]?\d{3}[- ]?\d{4}$/">
+              <!-- (541) 754-3010 VALID -->
+              <!-- (541) 7543010 VALID -->
+              <!-- (541) 754 3010 VALID -->
+              <!-- (541)754 3010 VALID -->
+              <!-- 5417543010 VALID -->
+            </div>
+            <div class="text-CS text-center" ng-show="shippingPhoneForm.phone.$error.pattern && submitted">
+              <small class="text-CS">Invalid phone format</small>
+            </div>
+            <div class="text-CS text-center" ng-show="shippingPhoneForm.phone.$error.required && shippingPhoneForm.$dirty && submitted">
+              <small class="text-CS">Phone is required</small>
+            </div>
+          </div>
+          <div ng-form name="shippingForm">
+            <div class="col-sm-12">
+              <label>Address</label>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group" ng-class="{ 'has-error': shippingForm.address1.$invalid && shippingForm.$dirty && submitted }">
+                    <input type="text" class="form-control" name="address1" placeholder="Address 1" ng-model="shipping.address.address1" required ng-required="true">
+                    <div class="text-CS text-center" ng-show="shippingForm.address1.$error.required && shippingForm.$dirty && submitted">
+                      <small class="text-CS">Address1 is required</small>
+                    </div>
+                  </div>
+                  <div class="form-group" ng-class="{ 'has-error': shippingForm.city.$invalid && shippingForm.$dirty && submitted }">
+                    <input type="text" class="form-control" name="city" placeholder="City" ng-model="shipping.address.city" required ng-required="true">
+                    <div class="text-CS text-center" ng-show="shippingForm.city.$error.required && shippingForm.$dirty && submitted">
+                      <small class="text-CS">City is required</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group">
+                    <input type="text" class="form-control" name="address2" placeholder="Address 2" ng-model="shipping.address.address2">
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <select id="state"
+                              name="state"
+                              ng-model="shipping.address.state"
+                              class="form-control"
+                              ng-class="{ 'has-error': shippingForm.state.$invalid && shippingForm.$dirty && submitted }"
+                              required
+                              ng-required="true">
+                          <option value="" disabled>Select a State</option>
+                          <option ng-repeat="state in states" value="{{state.abbreviation}}">
+                              {{state.abbreviation}}
+                          </option>
+                      </select>
+                      <div class="text-CS text-center" ng-show="shippingForm.state.$error.required && shippingForm.$dirty && submitted">
+                        <small class="text-CS">State is required</small>
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-6" ng-class="{ 'has-error': shippingForm.zipCode.$invalid && shippingForm.$dirty && submitted }">
+                      <input type="text" class="form-control" name="zipCode" placeholder="Zip code" required ng-required="true" ng-model="shipping.address.zipCode" ng-maxlength="5" ng-minlength="5" ng-pattern="/^\d{5}$/">
+                      <div class="text-CS text-center" ng-show="shippingForm.zipCode.$error.required && shippingForm.$dirty && submitted">
+                        <small class="text-CS">Zip code is required</small>
+                      </div>
+                    </div>
+                    <div class="text-CS text-center" ng-show="shippingForm.zipCode.$error.maxlength || shippingForm.zipCode.$error.minlength || shippingForm.zipCode.$error.pattern && submitted">
+                      <small class="text-CS">Invalid Zip code</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-12">
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="sameBillingAsShiping">
+                Use this as my billing address
+                <div></div>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div ng-if="false" class="row bg-Block" ng-form name="billingForm" ng-hide="sameBillingAsShiping">
+          <div class="col-sm-12">
+            <h3 class="text-CS">Billing Address</h3>
+          </div>
+          <div class="col-sm-12">
+            <label>Address</label>
+            <div class="row">
+              <div class="col-sm-6">
+                <div class="form-group" ng-class="{ 'has-error': billingForm.address1.$invalid && billingForm.$dirty && submitted }">
+                  <input type="text" class="form-control" name="address1" placeholder="Address 1" ng-model="billing.address.address1" required ng-required="true">
+                  <div class="text-CS text-center" ng-show="billingForm.address1.$error.required && billingForm.$dirty && submitted">
+                    <small class="text-CS">Address1 is required</small>
+                  </div>
+                </div>
+                <div class="form-group" ng-class="{ 'has-error': billingForm.city.$invalid  && billingForm.$dirty && submitted }">
+                  <input type="text" class="form-control" name="city" placeholder="City" ng-model="billing.address.city" required ng-required="true">
+                  <div class="text-CS text-center" ng-show="billingForm.city.$error.required && billingForm.$dirty && submitted">
+                    <small class="text-CS">City is required</small>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="form-group" ng-class="{ 'has-error': billingForm.address2.$invalid  && billingForm.$dirty && submitted }">
+                  <input type="text" class="form-control" name="address2" placeholder="Address 2" ng-model="billing.address.address2" required ng-required="true">
+                  <div class="text-CS text-center" ng-show="billingForm.address2.$error.required && billingForm.$dirty && submitted">
+                    <small class="text-CS">Address2 is required</small>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <select name="state"
+                            ng-model="billing.address.state"
+                            class="form-control"
+                            ng-class="{ 'has-error': billingForm.state.$invalid  && billingForm.$dirty && submitted }"
+                            required
+                            ng-required="true">
+                        <option value="" disabled>Select a State</option>
+                        <option ng-repeat="state in states" value="{{state.abbreviation}}">
+                            {{state.abbreviation}}
+                        </option>
+                    </select>
+                    <div class="text-CS text-center" ng-show="billingForm.state.$error.required && billingForm.$dirty && submitted">
+                      <small class="text-CS">State is required</small>
+                    </div>
+                  </div>
+                  <div class="form-group col-sm-6" ng-class="{ 'has-error': billingForm.zipCode.$invalid  && billingForm.$dirty && submitted }">
+                    <input type="text" class="form-control" required ng-required="true" name="zipCode" placeholder="Zip code" ng-model="billing.address.zipCode" ng-maxlength="5" ng-minlength="5" ng-pattern="/^\d{5}$/">
+                    <div class="text-CS text-center" ng-show="billingForm.zipCode.$error.required && billingForm.$dirty && submitted">
+                      <small class="text-CS">Zip code is required</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="text-CS text-center" ng-show="billingForm.zipCode.$error.maxlength || billingForm.zipCode.$error.minlength || billingForm.zipCode.$error.pattern && submitted">
+                  <small class="text-CS">Invalid Zip code</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+        <div class="row">
+          <!-- <div class="col-xs-3">
+            <button type="button" class="btn btnCancel btn-block">Cancel</button>
+          </div> -->
+          <div class="col-xs-3">
+            <button type="submit" class="btn btnSignUp btn-block" id="btnSaveAccount">Save changes</button>
+          </div>
+        </div>
+        <br>
+        <br>
+        <br>
+      </div>
+    </div>
+  </form>
+</div>

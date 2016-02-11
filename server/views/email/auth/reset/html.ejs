@@ -1,0 +1,61 @@
+<% include ../../head %>
+                          <div id="headlineText">
+                            <br>
+                            <br>
+                            <br>
+                            <p>
+                              Reset password request
+                            </p>
+                            Click in the big button below to reset your password<br>
+                          </div> 
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </td>
+              </tr>
+
+              <% if(typeof token != "undefined") { %>
+                <tr>
+                  <td height="30" bgcolor="#ffffff"></td>
+                </tr>
+                <tr id="simple-content-row">
+                  <td bgcolor="#ffffff">
+                    <table class="tableEmail" align="left" cellpadding="0" cellspacing="0" border="0">
+                      <tbody>
+                        <tr>
+                          
+                          <td>
+                            <repeater>
+
+                              <layout label="Text only">
+                                <table class="tableEmail" cellpadding="0" cellspacing="0" border="0">
+                                  <tbody>
+                                    <tr>
+                                      <td class="activateUrl">
+                                        <a href="<%= baseUrl %>/auth/password/reset?token=<%= token %>" class="btnActivate">Reset password</a>
+                                        <br>
+                                        <br>
+                                        <!-- If you can't see this email correctly <a href="">click here</a> -->
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td height="10"></td>
+                                    </tr>
+                                  </tbody></table>
+                              </layout>
+
+                            </repeater>
+                          </td>
+                          
+                        </tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td height="15" bgcolor="#ffffff"></td>
+                </tr>
+              <% } %>
+              <% include ../../footer %>

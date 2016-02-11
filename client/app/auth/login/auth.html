@@ -1,0 +1,322 @@
+<div ng-controller="AuthCtrl">
+  <script type="text/ng-template" id="auth.html">
+    <!-- <script id="modal.html"> -->
+    <!-- SIGNUP -->
+    <div class="modal-body signup-modal" ng-show="showSignup">
+      <button type="button" class="close" ng-click="modal.closeModal()">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <img src="/assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+      <div class="text-center">
+        <br>
+        Choose your account type:
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="col-sm-6 text-CS text-center btn-account-type {{showRole?'active' : ''}}" ng-click="destPath('athletes', true);" id='IamParent'>
+            Athlete
+          </div>
+          <div class="col-sm-6 text-CS text-center btn-account-type {{!showRole?'active' : ''}}" ng-click="destPath('provider-request', false);" id='IamCoach'>
+            Team
+          </div>
+        </div>
+      </div>
+      <br>
+      <div class="msg-account-type" ng-show="!showRole && hideRole">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="text-CS center-text-msg-team" align="center"><strong>Account is for a</strong></div>
+          </div>
+          <div class="col-sm-6">
+            <ul style="list-style-type:square">
+              <li>Team owner</li>
+              <li>Coach</li>
+              <li>GM</li>
+              <li>League admin</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="msg-account-type" ng-show="showRole && hideRole">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="text-CS center-text-msg-athlete" align="center"><strong>Account is for a</strong></div>
+          </div>
+          <div class="col-sm-6">
+            <div>
+              <ul style="list-style-type:square">
+                <li>Parent</li>
+                <li>Athlete</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="text-CS text-center">
+        <small class="text-CS" ng-show="error">{{error}}</small>
+      </div>
+      <div class="text-center" ng-hide="emailClick">
+        <br>
+        How would you like to create your account? <br>
+        <br>
+      </div>
+      <form class="form inputWIcons" name="form" ng-submit="register(form)" novalidate>
+        <facebook-btn ng-model="signup"></facebook-btn>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+            <div ng-show="emailClick">
+
+              <div class="text-center">
+                Sign up with email
+              </div>
+
+              <br>
+              <div class="form-group" ng-class="{ 'has-success': form.name.$valid && submitted, 'has-error': form.name.$invalid && submitted }">
+                <input type="text" name="name" class="form-control" placeholder="First Name" ng-model="user.firstName" ng-maxlength="128" required ng-required="true" ng-pattern="/^[a-zA-Z\s]*$/"/>
+                <i class="iconInputLeft glyphicon glyphicon-user"></i>
+                <div class="text-CS text-center" ng-show="form.name.$error.required && submitted">
+                  <small class="text-CS">First Name is required</small>
+                </div>
+                <div class="text-CS text-center" ng-show="form.name.$error.maxlength && submitted">
+                  <small class="text-CS">First Name exceeds 128 characters</small>
+                </div>
+                <div class="text-CS text-center" ng-show="form.name.$error.pattern && submitted">
+                  <small class="text-CS">First Name should only contain letters</small>
+                </div>
+              </div>
+
+              <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && submitted, 'has-error': form.lastName.$invalid && submitted }">
+                <input type="text" name="lastName" placeholder="Last Name" class="form-control" ng-model="user.lastName" ng-maxlength="128" required ng-required="true" ng-pattern="/^[a-zA-Z\s]*$/"/>
+                <i class="iconInputLeft glyphicon glyphicon-user"></i>
+                <div class="text-CS text-center" ng-show="form.lastName.$error.required && submitted">
+                  <small class="text-CS">Last Name is required</small>
+                </div>
+                <div class="text-CS text-center" ng-show="form.lastName.$error.maxlength && submitted">
+                  <small class="text-CS">Last Name exceeds 128 characters</small>
+                </div>
+                <div class="text-CS text-center" ng-show="form.lastName.$error.pattern && submitted">
+                  <small class="text-CS">Last Name should only contain letters</small>
+                </div>
+              </div>
+
+              <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted, 'has-error': form.email.$invalid && submitted }">
+                <input type="email" name="email" class="form-control" placeholder="Email" ng-model="user.email" ng-focus="emailFocus=true;" ng-blur="emailFocus=false;" required/>
+                <i class="iconInputLeft fa fa-envelope"></i>
+                <div class="text-CS text-center" ng-show="form.email.$error.email && submitted">
+                  <small class="text-CS">Not a valid email.</small>
+                </div>
+                <div class="text-CS text-center" ng-show="form.email.$error.required && submitted">
+                  <small class="text-CS">What&#39;s your email address?</small>
+                </div>
+                <div class="text-center" ng-show="emailFocus">
+                  <br>
+                  <small>You will use your email to login</small>
+                </div>
+              </div>
+
+              <password password="password" confirm="confirmPassword" form="form"></password>
+
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" ng-model="user.signupRememberMe"> Remember me
+                  <div></div>
+                </label>
+              </div>
+
+              <button class="btn btn-inverse btnSignUp btn-block" ng-hide="disabelSubmit" type="submit" id='submit-email-login'>
+                Sign up with email
+              </button>
+              <button class="btn btnCancel btnCancel btn-block" ng-show="disabelSubmit" type="button" id='submit-email-login-wait'>
+                Please wait a moment...
+              </button>
+              <br>
+              <div class="text-center">
+                <small>
+                  By signing up,  I agree to the Convenience Select&#39;s<br>
+                  <a href="/terms-of-service" target="blank">Terms of service</a>,
+                  <a href="/privacy-policy" target="blank">Privacy Policy</a>
+                  &amp;
+                  <a href="https://stripe.com/connect/account-terms" target="blank">Stripe Connected Account Agreement</a>
+                </small>
+              </div>
+            </div>
+            <a class="btn btnSignUp btn-block" ng-href="" ng-click="emailBtnClick()" ng-hide="emailClick" id='sign-up-email'>
+              Sign up with email
+            </a>
+            <br>
+            <div class="text-center" ng-hide="emailClick">
+              <small>
+                By signing up,  I agree to the Convenience Select&#39;s<br>
+                <a href="/terms-of-service" target="blank">Terms of service</a>,
+                <a href="/privacy-policy" target="blank">Privacy Policy</a>
+                &amp;
+                <a href="https://stripe.com/connect/account-terms" target="blank">Stripe Connected Account Agreement</a>
+              </small>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer" ng-show="showSignup">
+      <div class="text-center">
+        Already have an account? <a href="" ng-click="resetState(); modal.showContent('login')">Login</a>
+      </div>
+    </div>
+    <!-- END SIGNUP -->
+    <!-- VERIFY EMAIL -->
+    <div class="modal-body verify-email-modal" ng-show="showVerifyEmail">
+      <button type="button" class="close" ng-click="modal.closeModal()">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <h2 class="text-center text-CS">Please,<br> check your email</h2>
+    </div>
+    <!-- END VERIFY EMAIL -->
+    <!-- LOGIN -->
+    <div class="modal-body" ng-show="showLogin">
+      <button type="button" class="close" ng-click="modal.closeModal()">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <img src="assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+      <br>
+      <div class="text-CS text-center">
+        <small class="text-CS" ng-show="error">{{error}}</small>
+      </div>
+      <form class="form inputWIcons" name="loginForm" ng-submit="login(loginForm)" novalidate>
+        <facebook-btn ng-model="log_in"></facebook-btn>
+        <hr>
+        <div class="row">
+          <div class="col-sm-12">
+
+            <div class="text-center">
+              Or login with email
+            </div>
+            <br>
+
+            <div class="form-group" ng-class="{ 'has-success': loginForm.email.$valid && submitted, 'has-error': loginForm.email.$invalid && submitted }">
+              <input type="email" name="email" placeholder="Email Address" class="form-control" ng-model="user.email" required>
+              <i class="iconInputLeft fa fa-envelope"></i>
+              <div class="text-CS text-center" ng-show="loginForm.email.$error.email && submitted">
+                <small class="text-CS">Not a valid email.</small>
+              </div>
+              <div class="text-CS text-center" ng-show="loginForm.email.$error.required && submitted">
+                <small class="text-CS">Please enter an email</small>
+              </div>
+            </div>
+
+            <div class="form-group has-feedback" ng-class="{ 'has-success': loginForm.password.$valid && submitted, 'has-error': loginForm.password.$invalid && submitted }">
+              <input type="password" name="password" placeholder="Password" class="form-control" ng-model="user.password" required>
+              <i class="iconInputLeft fa fa-lock"></i>
+              <small class="text-center center-block" ng-show="(loginForm.password.$error.upperCase || loginForm.password.$error.required) && submitted">
+                <br>
+                       <span class="text-password-error" ng-show="(loginForm.password.$error.upperCase || loginForm.password.$error.required) && submitted">
+                         Wrong password
+                       </span>
+              </small>
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" ng-model="user.loginRememberMe"> Remember me
+                <div></div>
+              </label>
+
+              <a href="" ng-click="resetState(); modal.showContent('forgotPassword')" class="pull-right">Forgot password?</a>
+
+            </div>
+
+            <br>
+            <button class="btn btnSignUp btn-block" type="submit">
+              Log in
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer" ng-show="showLogin">
+      <div class="text-center">
+      </div>
+    </div>
+    <!-- END LOGIN -->
+    <!-- FORGOT PASSWORD -->
+    <div class="modal-body" ng-show="showForgotPassword">
+      <button type="button" class="close" ng-click="modal.closeModal()">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <img src="assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+      <br>
+      <div class="text-CS text-center">
+        <small class="text-CS" ng-show="error">{{error}}</small>
+      </div>
+      <div class="text-center">Enter your email</div>
+      <br>
+      <form class="form inputWIcons" name="forgotForm" ng-submit="forgot(forgotForm)" novalidate>
+        <div class="row">
+          <div class="col-sm-12">
+
+            <div class="form-group" ng-class="{ 'has-success': forgotForm.email.$valid && submitted, 'has-error': forgotForm.email.$invalid && submitted }">
+              <input type="email" name="email" class="form-control" placeholder="Email Address" ng-model="user.email" required/>
+              <i class="iconInputLeft fa fa-envelope"></i>
+              <div class="text-CS text-center" ng-show="forgotForm.email.$error.email && submitted">
+                <small class="text-CS">Not a valid email.</small>
+              </div>
+              <div class="text-CS text-center" ng-show="forgotForm.email.$error.required && submitted">
+                <small class="text-CS">Please enter an email.</small>
+              </div>
+              <span class="text-center center-block" ng-show="message">
+                <small class="text-CS">Email registered with Facebook</small>
+              </span>
+            </div>
+                <span class="text-center center-block" ng-show="sent">
+                  We've sent to you an email with instructions to reset your password
+                  <br>
+                  <br>
+                  Didn't got the email after 60 seconds? <a href="" ng-click="forgot(forgotForm)">Resend</a>
+                </span>
+            <button class="btn btn-inverse btnSignUp btn-block" type="submit" ng-hide="sent">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer" ng-show="showForgotPassword">
+      <div class="text-center">
+        Go back to <a href="" ng-click="resetState(); modal.showContent('login')">Log in</a>
+      </div>
+    </div>
+    <!-- END FORGOT PASSWORD -->
+    <!-- RESET PASSWORD -->
+    <div class="modal-body" ng-show="showResetPassword">
+      <button type="button" class="close" ng-click="modal.closeModal()">
+        <span aria-hidden="true">×</span>
+        <span class="sr-only">Close</span>
+      </button>
+      <img src="assets/images/CS-Logo.jpg" alt="Talos Logo" class="img-responsive">
+      <br>
+      <div class="text-CS text-center">
+        <small class="text-CS" ng-show="error">{{error}}</small>
+      </div>
+      <div class="text-center"><small>To reset your password, enter your new password below</small></div>
+      <br>
+      <form class="form inputWIcons" name="resetForm" ng-submit="reset(resetForm)" novalidate>
+        <div class="row">
+          <div class="col-sm-12">
+
+            <password password="password" confirm="confirmPassword" form="resetForm"></password>
+
+            <button class="btn btn-inverse btnSignUp btn-block" type="submit">Submit</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!-- END RESET PASSWORD -->
+  </script>
+  <ul class="nav navbar-nav">
+    <li style="margin-left: 1em">
+      <a href="" ng-click="resetState(); modal.showContent('login'); modal.openModal(); toggleMenu()">Log in</a>
+    </li>
+  </ul>
+</div>

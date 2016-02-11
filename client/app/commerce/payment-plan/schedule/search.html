@@ -1,0 +1,133 @@
+<div class="container">
+
+  <h4>
+    Search schedule by Order Id
+  </h4>
+  <hr>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="input-group" ng-form="searchForm">
+        <input type="text" name="orderId" class="form-control" placeholder="Order Id Number" ng-model="orderId"
+               required>
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button" ng-click="search(orderId)">Go!</button>
+      </span>
+      </div>
+
+      <div class="text-CS text-center" ng-show="searchForm.orderId.$error.required && submitted">
+        <small class="text-CS">This field is required</small>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+  <div ng-show="order">
+    <strong>Order Status: &nbsp;&nbsp; </strong><span>{{order.status | uppercase}}</span>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table table-hover" ng-if="paymentPlan.schedulePeriods">
+      <thead>
+      <th width="100">Original Price</th>
+      <th width="100">Total Fee</th>
+      <th>Charge Date</th>
+      <th>Description</th>
+      <th>Account</th>
+      <th>Charged</th>
+      <th>Status</th>
+      <th>Options</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="schedule in paymentPlan.schedulePeriods">
+          <td>
+            <input class="form-control" type="number" step="any" name="price" ng-model="schedule.price" required>
+          </td>
+          <td>
+            <input class="form-control" type="number" step="any" name="fee" ng-model="schedule.fee" required>
+          </td>
+          <td>
+            <input class="form-control" type="datetime-local" name="nextPaymentDue" ng-model="schedule.nextPaymentDue" required>
+          </td>
+          <td>
+            <input type="text" class="form-control"  name="description" ng-model="schedule.description" required>
+          </td>
+          <td>
+            <select name="account"
+                    class="form-control"
+                    ng-model="schedule.accountId"
+                    ng-required="accounts.length > 1"
+                    ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts"
+                    ng-change="changeAccount()">
+              <option value="" disabled>Select a account</option>
+            </select>
+          </td>
+          <td>
+            <p class="form-control-static">
+            <span>Yes</span>
+            <input type="radio" name="isCharged{{schedule.id}}"
+                   ng-model="schedule.isCharged" ng-value="true" required>
+            <br>
+            <span>No</span>
+            <input type="radio" name="isCharged{{schedule.id}}"
+                   ng-model="schedule.isCharged" ng-value="false" required>
+          </p>
+          </td>
+          <td>{{getStatusName(schedule.isCharged, schedule.status)}}</td>
+          <td>
+            <div ng-show="order.status === 'processing' ">
+              <div ng-show="schedule.status == 'deactivate'">
+                <button type="button" class="btn btn-circle btn-warning" ng-click="activatePeriod(orderId,schedule)"><i class="glyphicon glyphicon-floppy-open"></i></button>
+              </div>
+              <div ng-hide="schedule.status == 'succeeded' || schedule.status == 'deactivate'">
+                <button type="button" class="btn btn-success btn-circle" ng-click="updatePeriod(orderId, schedule)"><i class="glyphicon glyphicon-floppy-save"></i></button>
+                <button type="button" class="btn btn-circle btn-warning" ng-click="deactivatePeriod(orderId, schedule)"><i class="glyphicon glyphicon-floppy-remove"></i></button>
+              </div>
+            </div>
+
+
+          </td>
+        </tr>
+        <tr ng-if="order.status === 'processing'">
+          <td>
+            <input class="form-control" type="number" step="any" name="price" ng-model="scheduleNew.price" required>
+          </td>
+          <td>
+            <input class="form-control" type="number" step="any" name="fee" ng-model="scheduleNew.fee" required>
+          </td>
+          <td>
+            <input class="form-control" type="datetime-local" name="nextPaymentDue" ng-model="scheduleNew.nextPaymentDue" required>
+          </td>
+          <td>
+            <input type="text" class="form-control"  name="description" ng-model="scheduleNew.description" required>
+          </td>
+          <td>
+            <select name="account"
+                    class="form-control"
+                    ng-model="scheduleNew.accountId"
+                    ng-required="accounts.length > 1"
+                    ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts"
+                    ng-change="changeAccount()">
+              <option value="" disabled>Select a account</option>
+            </select>
+          </td>
+          <td>
+            <span>No</span>
+            <input type="radio" name="isChargedNew"
+                   ng-model="scheduleNew.isCharged" ng-value="false" required>
+          </td>
+          <td></td>
+          <td>
+            <button type="button" class="btn btn-success btn-circle" ng-click="createPeriod(orderId, paymentPlan.paymentPlanId, scheduleNew)"><i class="glyphicon glyphicon-plus"></i></button>
+            <button type="button" class="btn btn-circle btn-default" ng-click="clearNewPeriod()"><i class="glyphicon glyphicon-refresh"></i></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="container empty-car text-CS" ng-show="submitted">
+  <loading></loading>
+</div>
+

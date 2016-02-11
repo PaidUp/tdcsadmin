@@ -1,0 +1,102 @@
+
+
+
+
+
+<div class="modal-body">
+  <div style="position: relative">
+
+    <button style="position:relative; z-index: 2;"  type="button" class="close" ng-click="closeModal()">
+      <span aria-hidden="true">×</span>
+      <span class="sr-only">Close</span>
+    </button>
+
+    <div class="row" style="z-index: 1" >
+      <div class="col-sm-3">
+        <div align="center">
+          <img src="/assets/images/landing/thePeople/allan.png">
+          <h4>Allan Rayson</h4>
+          <span class="aboutUsGray">CEO & Co-Founder</span>
+          <div><a href="mailto:allan@convenienceselect.com">allan@convenienceselect.com</a></div>
+          <div><a href="tel:(512) 900-3643">(512) 900-3643 (Sales)</a></div>
+        </div>
+
+      </div>
+
+      <div class="col-sm-9" style="padding-left: 30px">
+        <h2>{{content[page].header}}</h2>
+        <div class=""  style="padding-top: 40px; font-size: 20px">
+          <div ng-bind-html="content[page].body">
+
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+
+
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+<div class="modal-footer">
+  <div class="row">
+    <div class="col-sm-12">
+      <form name="contactUsForm" ng-submit="contactUs(contactUsForm, contactInfo)" id="contactUsForm" novalidate>
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="form-group">
+              <input type="search" name="name" class="form-control" placeholder="Name" ng-model="contactInfo.name" ng-required="false">
+              <div class="text-CS text-center" ng-show="contactUsForm.name.$error.required && submitted">
+                <small class="text-CS">What's your name?</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <input type="email" name="email" class="form-control" placeholder="Email" ng-model="contactInfo.email" ng-required="true">
+              <div class="text-CS text-center" ng-show="contactUsForm.email.$error.email && submitted">
+                <small class="text-CS">Doesn't look like a valid email.</small>
+              </div>
+              <div class="text-CS text-center" ng-show="contactUsForm.email.$error.required && submitted">
+                <small class="text-CS">What's your email address?</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="form-group">
+              <input type="search" name="phone" class="form-control" placeholder="Phone" ng-model="contactInfo.phone" ng-required="false">
+              <div class="text-CS text-center" ng-show="contactUsForm.phone.$error.required && submitted">
+                <small class="text-CS">What's your phone number?</small>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-3" style="padding-right: 5px">
+
+            <button type="submit" class="btn btnSignUp btn-block">{{content[page].button}}</button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

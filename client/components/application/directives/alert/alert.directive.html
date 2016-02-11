@@ -1,0 +1,11 @@
+<alert ng-repeat="alert in alerts" type="{{alert.type}}">
+    <div class="container">
+        <div class="col-md-12" ng-if="alert.templateUrl">
+          <ng-include src="alert.templateUrl">
+          </ng-include>
+        </div>
+        <div class="col-md-12" ng-if="alert.msg">
+          {{alert.msg}}
+        </div>
+    </div>
+</alert>

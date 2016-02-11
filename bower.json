@@ -1,0 +1,34 @@
+{
+  "name": "tdcs-app",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": ">=1.2.*",
+    "json3": "~3.3.1",
+    "es5-shim": "~3.0.1",
+    "jquery": "~1.11.0",
+    "bootstrap": "~3.1.1",
+    "angular-resource": ">=1.2.*",
+    "angular-cookies": ">=1.2.*",
+    "angular-sanitize": ">=1.2.*",
+    "angular-bootstrap": "~0.11.0",
+    "font-awesome": ">=4.1.0",
+    "lodash": "~2.4.1",
+    "angular-socket-io": "~0.6.0",
+    "angular-ui-router": "~0.2.10",
+    "angulartics": "~0.17.2",
+    "moment": "~2.9.0",
+    "angular-facebook": "~0.2.3",
+    "moment-range": "~1.0.7",
+    "angular-number-picker": "~1.0.2",
+    "angular-ui-utils": "~0.2.2",
+    "jquery-waypoints": "~3.1.1",
+    "CryptoJS": "~3.1.12",
+    "node-uuid": "~1.4.3",
+    "ngstorage": "~0.3.9",
+    "ng-idle": "~1.1.1"
+  },
+  "devDependencies": {
+    "angular-mocks": ">=1.2.*",
+    "angular-scenario": ">=1.2.*"
+  }
+}
