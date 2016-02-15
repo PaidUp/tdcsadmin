@@ -1,5 +1,5 @@
-/server/config/local.env.jsnode_modules
-server/config/environment/development.js
+##/server/config/local.env.jsnode_modules
+##server/config/environment/development.js
 var/logs/*.log
 var/tmp/*
 var/cronjob.pid
@@ -20,7 +20,7 @@ bin
 server/api/auth/auth.spec.js
 server/api/payment/payment.spec.js
 server/api/user/user.spec.js
-server/config/environment/index.js
+##server/config/environment/index.js
 
 # COMMON FILES
 #
@@ -65,7 +65,7 @@ Thumbs.db
 =======
 /server/config/local.env.js
 var/logs/*
-server/config/express.js
+##server/config/express.js
 
 
 *~
