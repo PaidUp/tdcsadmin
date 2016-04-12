@@ -4,6 +4,7 @@ angular.module('convenienceApp')
   .service('CommerceService', function ($cookieStore, $resource, $q, $rootScope) {
     var Orders = $resource('/api/v1/commerce/order/list', {}, {});
     var Order = $resource('/api/v1/commerce/order/:orderId', {}, {});
+    var OrderSearch = $resource('/api/v1/commerce/order/search', {}, {});
     var OrderBasic = $resource('/api/v1/commerce/order/basic/:orderId', {}, {});
     var Transactions = $resource('/api/v1/commerce/transaction/list', {}, {});
     var Provider = $resource('/api/v1/commerce/provider/request', {}, {});
@@ -16,6 +17,10 @@ angular.module('convenienceApp')
 
     this.getOrder = function (orderId) {
       return Order.get({orderId:orderId}).$promise;
+    };
+
+    this.orderSearch = function (params) {
+      return Order.post({params:params}).$promise;
     };
 
     this.getOrderBasic = function (orderId) {

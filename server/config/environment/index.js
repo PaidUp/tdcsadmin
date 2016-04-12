@@ -282,7 +282,8 @@ var all = {
       isHttp: false,
       host: 'localhost',
       port: 9002,
-      token: 'TDCommerceToken-CHANGE-ME!'
+      token: 'TDCommerceToken-CHANGE-ME!',
+      baseUrl: 'http://localhost:9002'
     },
     userLoan: {
       urlPrefix: '/api/v1',

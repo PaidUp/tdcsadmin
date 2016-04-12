@@ -63,6 +63,21 @@ exports.getOrderBasic = function(req , res){
 
 }
 
+exports.orderSearch = function(req , res){
+  if (!req.body.params) {
+    return handleError(res, {name : 'ValidationError' , message : 'params is required' });
+  }
+
+  commerceService.orderSearch(req.body.params, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.orderSearch', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data);
+  });
+
+}
+
+
 function handleError(res, err) {
   var httpErrorCode = 500;
   var errors = [];

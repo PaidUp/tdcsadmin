@@ -1,13 +1,13 @@
 'use strict';
 
 var paymentService = require('../payment/payment.service');
-var loanService = require('../loan/loan.service');
 var async = require('async');
 var TDCommerceService = require('TDCore').commerceService;
 var config = require('../../config/environment');
 var logger = require('../../config/logger');
 var providerService = require('./provider/provider.service');
 var Provider = require('./provider/provider.model');
+var PUCommerceConnect = require('paidup-commerce-connect')
 TDCommerceService.init(config.connections.commerce);
 
 var ORDER_STATUS = {
@@ -250,6 +250,25 @@ function createShipment(orderList, cb){
   });
 }
 
+function orderSearch(params, cb){
+
+  PUCommerceConnect.orderSearch({
+    baseUrl : config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    params: params
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (orderResult) {
+      return cb(null, orderResult)
+    },
+  });
+
+}
+
 exports.addCommentToOrder = addCommentToOrder;
 exports.addTransactionToOrder = addTransactionToOrder;
 exports.orderHold = orderHold;
@@ -269,3 +288,4 @@ exports.getListOrdersComplete = getListOrdersComplete;
 exports.transactionList = transactionList;
 exports.createShipment = createShipment;
 exports.getOrderBasic = getOrderBasic
+exports.orderSearch = orderSearch;

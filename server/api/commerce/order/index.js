@@ -10,5 +10,6 @@ router.get('/list', authService.isAuthenticated(), controller.listOrders);
 //basic: without bank account
 router.get('/basic/:orderId', authService.isAuthenticated(), controller.getOrderBasic);
 router.get('/:orderId', authService.isAuthenticated(), controller.getOrder);
+router.post('/search', authService.isAuthenticated(), controller.orderSearch);
 
 module.exports = router;
