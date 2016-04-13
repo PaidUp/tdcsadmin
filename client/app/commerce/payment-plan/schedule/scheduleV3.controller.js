@@ -11,92 +11,13 @@ angular.module('convenienceApp')
       }
     });
 
-    $scope.orderId = '';
+    $scope.searchCriteria = '';
     $scope.scheduleNew = {isCharged : false};
     $scope.accounts = [];
-
-    $scope.search = function(orderId){
-      $scope.submitted = true;
-      $scope.accounts = [];
-      $scope.paymentPlan = {};
-      $scope.order = {};
+    $scope.submitted = false;
+    $scope.orderPreview = 0;
 
 
-      CommerceService.getOrderBasic(orderId).then(function(order){
-
-        $scope.order = order;
-        search(order);
-      }).catch(function(err){
-        $scope.submitted = false;
-        FlashService.addAlert({
-          type: "danger",
-          msg: "Can't be searched the order schedule, please contact us.",
-          timeout: 10000
-        });
-      });
-    }
-
-    $scope.updatePeriod = function(orderId, period){
-      $scope.submitted = true;
-      if(validatePeriod(period)){
-        scheduleService.scheduleInformationUpdate(period).then(function(resp){
-          FlashService.addAlert({
-            type: resp.data ? "success": "danger",
-            msg: resp.data ? "Schedule period was updated success. " : "Schedule period wasn't be update. ",
-            timeout: 10000
-          });
-          $scope.search(orderId);
-        }).catch(function(err){
-          $scope.submitted = false;
-          FlashService.addAlert({
-            type: "danger",
-            msg: "Schedule period wasn't be update.",
-            timeout: 10000
-          });
-        });
-      }
-    }
-
-    $scope.deactivatePeriod = function(orderId, period){
-      period.status = "deactivate"
-      period.isCharged = true
-      $scope.updatePeriod(orderId, period);
-    }
-
-    $scope.activatePeriod = function(orderId, period){
-      period.status = "activate"
-      $scope.updatePeriod(orderId, period);
-    }
-
-    $scope.createPeriod = function(orderId, paymentPlanId, newPeriod){
-      if(validatePeriod(newPeriod)){
-        newPeriod.paymentPlanId = paymentPlanId
-        $scope.submitted = true;
-        scheduleService.scheduleInformationCreate(newPeriod).then(function(resp){
-          FlashService.addAlert({
-            type: resp.data ? "success": "danger",
-            msg: resp.data ? "Schedule period was created success. " : "Schedule period wasn't be created. ",
-            timeout: 10000
-          });
-          $scope.search(orderId);
-        }).catch(function(err){
-          $scope.submitted = false;
-          FlashService.addAlert({
-            type: "danger",
-            msg: "Schedule period wasn't be create.",
-            timeout: 10000
-          });
-        });
-      }
-    }
-
-    $scope.clearNewPeriod = function(){
-      $scope.scheduleNew = {isCharged : false};
-    }
-
-    $scope.getStatusName = function(isCharged, status){
-      return scheduleService.getStatusPeriod(isCharged, status);
-    }
 
     $scope.sendAlertErrorMsg = function (msg) {
       FlashService.addAlert({
@@ -106,59 +27,24 @@ angular.module('convenienceApp')
       });
     };
 
-    function search(order) {
+    $scope.setPreview = function(index){
+      $scope.orderPreview = index;
+    }
+
+    $scope.search = function(searchCriteria) {
       $scope.submitted = true;
       $scope.accounts = [];
-      $scope.clearNewPeriod();
-      scheduleService.scheduleInfoFull(order.incrementId).then(function(data){
-        if(!data || !data.paymentList || !data.paymentList.schedulePeriods){
-          FlashService.addAlert({
-            type: "warning",
-            msg: "Can't be load this order.",
-            timeout: 10000
-          });
-          $scope.submitted = false;
-          $scope.paymentPlan = {};
-        }else{
 
-          loadBankAccounts(order.userId, $scope.accounts).then(function(lst){
-            loadCreditCardAccounts(order.userId, lst).then(function(lst2){
-              //$scope.accounts.push({ accountName: 'Create a new credit card' });
-              //$scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' });
-
-
-              data.paymentList.schedulePeriods.forEach(function(ele , idx ,arr){
-                ele.nextPaymentDue = new Date(ele.nextPaymentDue)
-                ele.price = parseFloat(ele.price)
-                ele.percent = parseFloat(ele.percent)
-                ele.fee = parseFloat(ele.fee)
-                ele.feePercent = parseFloat(ele.feePercent)
-                ele.discountToFee = parseFloat(ele.discountToFee)
-                ele.isCharged = ele.isCharged ? ele.isCharged : false;
-              });
-
-              $scope.paymentPlan = data.paymentList;
-
-              $scope.submitted = false;
-
-            }, function(err2){
-              $scope.sendAlertErrorMsg(err.data.message);
-            });
-          }, function(err){
-            $scope.sendAlertErrorMsg(err.data.message);
-          });
-
-        }
+      CommerceService.orderSearch(searchCriteria).then(function(result){
+        console.log(result)
+        $scope.searchResult = result.body;
+        $scope.submitted = false;
       }).catch(function(err){
-        $scope.accounts = [];
-        $scope.paymentPlan = {};
-        $scope.order = {};
-        FlashService.addAlert({
-          type: "danger",
-          msg: "Can't be searched the order schedule, please contact us.",
-          timeout: 10000
-        });
+        $scope.sendAlertErrorMsg(JSON.stringify(err))
+        $scope.submitted = false;
       });
+
+
     }
 
     function validatePeriod(period){
@@ -227,6 +113,35 @@ angular.module('convenienceApp')
           });
 
         }, 1000);
+      });
+    };
+
+    function loadAccounts(order){
+      loadBankAccounts(order.userId, $scope.accounts).then(function(lst){
+        loadCreditCardAccounts(order.userId, lst).then(function(lst2){
+          //$scope.accounts.push({ accountName: 'Create a new credit card' });
+          //$scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' });
+
+
+          data.paymentList.schedulePeriods.forEach(function(ele , idx ,arr){
+            ele.nextPaymentDue = new Date(ele.nextPaymentDue)
+            ele.price = parseFloat(ele.price)
+            ele.percent = parseFloat(ele.percent)
+            ele.fee = parseFloat(ele.fee)
+            ele.feePercent = parseFloat(ele.feePercent)
+            ele.discountToFee = parseFloat(ele.discountToFee)
+            ele.isCharged = ele.isCharged ? ele.isCharged : false;
+          });
+
+          $scope.paymentPlan = data.paymentList;
+
+          $scope.submitted = false;
+
+        }, function(err2){
+          $scope.sendAlertErrorMsg(err.data.message);
+        });
+      }, function(err){
+        $scope.sendAlertErrorMsg(err.data.message);
       });
     }
 
