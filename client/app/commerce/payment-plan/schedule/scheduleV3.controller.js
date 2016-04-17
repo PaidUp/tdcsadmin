@@ -16,6 +16,8 @@ angular.module('convenienceApp')
     $scope.accounts = [];
     $scope.submitted = false;
     $scope.orderPreview = 0;
+    $scope.orderSelected = null;
+    $scope.searchResult = [];
 
 
 
@@ -28,7 +30,12 @@ angular.module('convenienceApp')
     };
 
     $scope.setPreview = function(index){
-      $scope.orderPreview = index;
+      if($scope.orderPreview == index){
+        $scope.orderPreview = null;
+      } else {
+        $scope.orderPreview = index;
+      }
+
     }
 
     $scope.search = function(searchCriteria) {
@@ -45,6 +52,10 @@ angular.module('convenienceApp')
       });
 
 
+    }
+
+    $scope.selectOrder = function(index){
+      $scope.orderSelected = searchResult[index];
     }
 
     function validatePeriod(period){
