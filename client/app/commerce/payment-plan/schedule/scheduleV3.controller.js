@@ -55,7 +55,7 @@ angular.module('convenienceApp')
     }
 
     $scope.selectOrder = function(index){
-      $scope.orderSelected = searchResult[index];
+      $scope.orderSelected = $scope.searchResult.orders[index];
     }
 
     function validatePeriod(period){

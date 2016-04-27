@@ -8,6 +8,7 @@ var logger = require('../../config/logger');
 var providerService = require('./provider/provider.service');
 var Provider = require('./provider/provider.model');
 var PUCommerceConnect = require('paidup-commerce-connect')
+var PUScheduleConnect = require('paidup-schedule-connect')
 TDCommerceService.init(config.connections.commerce);
 
 var ORDER_STATUS = {
@@ -269,6 +270,78 @@ function orderSearch(params, cb){
 
 }
 
+function editOrder(params, cb){
+
+  PUCommerceConnect.orderUpdatePayments({
+    baseUrl : config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId : 'xx',
+    paymentPlanId : 'ww',
+    params: paymentPlan
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (orderResult) {
+      return cb(null, orderResult)
+    },
+  });
+
+}
+
+function editPaymentPlan(params, pp, cb){
+  let orderId = params.orderId;
+  let paymentPlanId = params.paymentPlanId;
+  let price = params.price;
+
+  PaidUpScheduleConnect.calculatePrice({
+    baseUrl: config.connections.schedule.baseUrl,
+    token: config.connections.schedule.token,
+    originalPrice: price,
+    stripePercent: pp.cardFeeDisplay,
+    stripeFlat: pp.cardFeeFlatDisplay,
+    paidUpFee: pp.collectionsFee.fee,
+    discount: pp.discount,
+    payProcessing: pp.paysFees.processing,
+    payCollecting: pp.paysFees.collections,
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err);
+    },
+// OK.
+    success: function (result){
+
+    },
+  });
+
+
+}
+
+function getPaymentPlan(orderId, paymentPlanId, cb){
+  PaidUpCommerceConnect.orderGet({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: orderId
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err)
+    },
+// OK.
+    success: function (result){
+      result.body.orders[0].paymentsPlan.map(function(pp){
+        if(pp._id == paymentPlanId){
+          return cb(null, pp)
+        }
+      });
+      return cb('payment plan not found')
+    },
+  });
+}
+
 exports.addCommentToOrder = addCommentToOrder;
 exports.addTransactionToOrder = addTransactionToOrder;
 exports.orderHold = orderHold;
@@ -289,3 +362,4 @@ exports.transactionList = transactionList;
 exports.createShipment = createShipment;
 exports.getOrderBasic = getOrderBasic
 exports.orderSearch = orderSearch;
+exports.editOrder = editOrder;

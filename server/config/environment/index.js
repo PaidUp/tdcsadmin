@@ -297,7 +297,8 @@ var all = {
       isHttp: false,
       host: 'localhost',
       port: 9006,
-      token: 'tdschedule-secret'
+      token: 'tdschedule-secret',
+      baseUrl: 'http://localhost:9006'
     },
   },
   logger : {

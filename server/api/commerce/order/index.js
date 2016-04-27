@@ -11,5 +11,6 @@ router.get('/list', authService.isAuthenticated(), controller.listOrders);
 router.get('/basic/:orderId', authService.isAuthenticated(), controller.getOrderBasic);
 router.get('/:orderId', authService.isAuthenticated(), controller.getOrder);
 router.post('/search', authService.isAuthenticated(), controller.orderSearch);
+router.post('/edit', authService.isAuthenticated(), controller.editOrder);
 
 module.exports = router;
