@@ -74,7 +74,7 @@
             <td>{{pp.description}}</td>
             <td>{{pp.dateCharge | date}}</td>
             <td>{{pp.price | currency}}</td>
-            <td>{{pp.originalPrice | currency}}</td>
+            <td>$<input ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
             <td>{{pp.accountBrand}}</td>
             <td>{{pp.last4}}</td>
             <td>{{pp.wasProcessed == true ? "Yes" : "No"}}</td>

@@ -78,15 +78,18 @@ exports.orderSearch = function(req , res){
 }
 
 exports.editOrder = function(req , res){
-  if (!req.body.params) {
-    return handleError(res, {name : 'ValidationError' , message : 'params is required' });
+  if (!req.body.orderId) {
+    return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
+  }
+  if (!req.body.paymentPlanId) {
+    return handleError(res, {name : 'ValidationError' , message : 'paymen plan id is required' });
   }
 
-  commerceService.editOrder(req.body.params, function(err, data){
+  commerceService.editOrder(req.body, function(err, data){
     if (err) {
-      return res.status(500).json({code : 'commerceService.orderSearch', message : JSON.stringify(err)});
+      return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
     }
-    return res.status(200).json(data);
+    return res.status(200).json(data.body);
   });
 
 }

@@ -58,6 +58,22 @@ angular.module('convenienceApp')
       $scope.orderSelected = $scope.searchResult.orders[index];
     }
 
+    $scope.editPaymentPlan = function(pp){
+      var params = {
+        orderId : $scope.orderSelected._id,
+        paymentPlanId: pp._id,
+        originalPrice: pp.originalPrice
+      }
+
+      console.log(params)
+
+      CommerceService.paymentPlanEdit(params).then(function(res){
+        console.log("RES: ", res );
+      }).catch(function(err){
+        console.log("ERR: ", err );
+      });
+    }
+
     function validatePeriod(period){
       var resp = true;
 

@@ -272,36 +272,57 @@ function orderSearch(params, cb){
 
 function editOrder(params, cb){
 
-  PUCommerceConnect.orderUpdatePayments({
-    baseUrl : config.connections.commerce.baseUrl,
-    token: config.connections.commerce.token,
-    orderId : 'xx',
-    paymentPlanId : 'ww',
-    params: paymentPlan
-  }).exec({
-    // An unexpected error occurred.
-    error: function (err) {
-      return cb(err)
-    },
-    // OK.
-    success: function (orderResult) {
-      return cb(null, orderResult)
-    },
+  getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
+    if(err){
+      return cb(err);
+    }else{
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          return cb(err2);
+        }else{
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            orderId : params.orderId,
+            paymentPlanId : params.paymentPlanId,
+            paymentPlan: pp2
+          }
+
+          console.log("PPE: ", JSON.stringify(ppe));
+
+          PUCommerceConnect.orderUpdatePayments(ppe).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+
+              console.log('err', err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              console.log('err', err)
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
   });
+
+
 
 }
 
-function editPaymentPlan(params, pp, cb){
-  let orderId = params.orderId;
-  let paymentPlanId = params.paymentPlanId;
-  let price = params.price;
+function editPaymentPlan(pp, params, cb){
+  let price = params.originalPrice;
 
-  PaidUpScheduleConnect.calculatePrice({
+  PUScheduleConnect.calculatePrice({
     baseUrl: config.connections.schedule.baseUrl,
     token: config.connections.schedule.token,
     originalPrice: price,
-    stripePercent: pp.cardFeeDisplay,
-    stripeFlat: pp.cardFeeFlatDisplay,
+    stripePercent: pp.processingFees.cardFeeDisplay,
+    stripeFlat: pp.processingFees.cardFeeFlatDisplay,
     paidUpFee: pp.collectionsFee.fee,
     discount: pp.discount,
     payProcessing: pp.paysFees.processing,
@@ -313,18 +334,18 @@ function editPaymentPlan(params, pp, cb){
     },
 // OK.
     success: function (result){
-
+      pp.price = result.body.owedPrice;
+      return cb(null, pp);
     },
   });
-
-
 }
 
 function getPaymentPlan(orderId, paymentPlanId, cb){
-  PaidUpCommerceConnect.orderGet({
+  PUCommerceConnect.orderGet({
     baseUrl: config.connections.commerce.baseUrl,
     token: config.connections.commerce.token,
-    orderId: orderId
+    orderId: orderId,
+    limit: 1
   }).exec({
 // An unexpected error occurred.
     error: function (err){
@@ -332,11 +353,15 @@ function getPaymentPlan(orderId, paymentPlanId, cb){
     },
 // OK.
     success: function (result){
+      let res = null;
       result.body.orders[0].paymentsPlan.map(function(pp){
         if(pp._id == paymentPlanId){
-          return cb(null, pp)
+          res = pp;
         }
       });
+      if(res){
+        return cb(null, res);
+      }
       return cb('payment plan not found')
     },
   });
