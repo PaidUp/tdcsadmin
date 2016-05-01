@@ -19,7 +19,14 @@ angular.module('convenienceApp')
     $scope.orderSelected = null;
     $scope.searchResult = [];
 
-
+    function parceDatePaymentPlan(order){
+      var paymentPlans = order.paymentsPlan.map(function(pp){
+        pp.dateCharge = new Date(pp.dateCharge);
+        return pp;
+      });
+      order.paymentPlans = paymentPlans;
+      return order;
+    }
 
     $scope.sendAlertErrorMsg = function (msg) {
       FlashService.addAlert({
@@ -56,8 +63,7 @@ angular.module('convenienceApp')
     }
 
     $scope.selectOrder = function(index){
-      $scope.orderSelected = $scope.searchResult.orders[index];
-      console.log("order selected: " , $scope.orderSelected);
+      $scope.orderSelected = parceDatePaymentPlan($scope.searchResult.orders[index]);
     }
 
     $scope.editPaymentPlan = function(pp){
@@ -65,14 +71,16 @@ angular.module('convenienceApp')
       var params = {
         orderId : $scope.orderSelected._id,
         paymentPlanId: pp._id,
-        originalPrice: pp.originalPrice
+        originalPrice: pp.originalPrice,
+        description: pp.description,
+        dateCharge: pp.dateCharge
       }
 
       $scope.submitted = true;
 
       CommerceService.paymentPlanEdit(params).then(function(res){
         console.log(res);
-        $scope.orderSelected = res;
+        $scope.orderSelected = parceDatePaymentPlan(res);
         FlashService.addAlert({
           type: "success",
           msg: "change was success.",

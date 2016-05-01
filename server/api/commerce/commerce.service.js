@@ -271,7 +271,6 @@ function orderSearch(params, cb){
 }
 
 function editOrder(params, cb){
-
   getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
     if(err){
       return cb(err);
@@ -316,6 +315,8 @@ function editOrder(params, cb){
 
 function editPaymentPlan(pp, params, cb){
   let originalPrice = params.originalPrice;
+  let description = params.description;
+  let dateCharge = params.dateCharge;
 
   PUScheduleConnect.calculatePrice({
     baseUrl: config.connections.schedule.baseUrl,
@@ -336,6 +337,8 @@ function editPaymentPlan(pp, params, cb){
     success: function (result){
       pp.price = result.body.owedPrice;
       pp.originalPrice = originalPrice;
+      pp.description = description;
+      pp.dateCharge = dateCharge;
       return cb(null, pp);
     },
   });

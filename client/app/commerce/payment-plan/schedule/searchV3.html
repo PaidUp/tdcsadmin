@@ -71,8 +71,8 @@
           </thead>
           <tbody>
           <tr ng-repeat="pp in orderSelected.paymentsPlan">
-            <td>{{pp.description}}</td>
-            <td>{{pp.dateCharge | date}}</td>
+            <td><input ng-blur="editPaymentPlan(pp)" type="text" ng-model="pp.description"  class="input-sm"></td>
+            <td><input ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
             <td>{{pp.price | currency}}</td>
             <td>$<input ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
             <td>{{pp.accountBrand}}</td>
