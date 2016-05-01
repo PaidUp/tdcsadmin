@@ -301,7 +301,7 @@ function editOrder(params, cb){
             },
             // OK.
             success: function (orderResult) {
-              console.log('err', err)
+              console.log('ORDER Result: ', JSON.stringify(orderResult))
               return cb(null, orderResult)
             },
           });
@@ -315,12 +315,12 @@ function editOrder(params, cb){
 }
 
 function editPaymentPlan(pp, params, cb){
-  let price = params.originalPrice;
+  let originalPrice = params.originalPrice;
 
   PUScheduleConnect.calculatePrice({
     baseUrl: config.connections.schedule.baseUrl,
     token: config.connections.schedule.token,
-    originalPrice: price,
+    originalPrice: originalPrice,
     stripePercent: pp.processingFees.cardFeeDisplay,
     stripeFlat: pp.processingFees.cardFeeFlatDisplay,
     paidUpFee: pp.collectionsFee.fee,
@@ -335,6 +335,7 @@ function editPaymentPlan(pp, params, cb){
 // OK.
     success: function (result){
       pp.price = result.body.owedPrice;
+      pp.originalPrice = originalPrice;
       return cb(null, pp);
     },
   });
@@ -355,11 +356,12 @@ function getPaymentPlan(orderId, paymentPlanId, cb){
     success: function (result){
       let res = null;
       result.body.orders[0].paymentsPlan.map(function(pp){
-        if(pp._id == paymentPlanId){
+        if(pp._id === paymentPlanId){
           res = pp;
         }
       });
       if(res){
+        console.log("RES###: ", res);
         return cb(null, res);
       }
       return cb('payment plan not found')

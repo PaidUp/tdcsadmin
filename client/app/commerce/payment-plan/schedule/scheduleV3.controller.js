@@ -41,6 +41,7 @@ angular.module('convenienceApp')
     $scope.search = function(searchCriteria) {
       $scope.submitted = true;
       $scope.accounts = [];
+      $scope.orderSelected = null;
 
       CommerceService.orderSearch(searchCriteria).then(function(result){
         console.log(result)
@@ -56,21 +57,31 @@ angular.module('convenienceApp')
 
     $scope.selectOrder = function(index){
       $scope.orderSelected = $scope.searchResult.orders[index];
+      console.log("order selected: " , $scope.orderSelected);
     }
 
     $scope.editPaymentPlan = function(pp){
+      console.log('PP: ' , pp._id)
       var params = {
         orderId : $scope.orderSelected._id,
         paymentPlanId: pp._id,
         originalPrice: pp.originalPrice
       }
 
-      console.log(params)
+      $scope.submitted = true;
 
       CommerceService.paymentPlanEdit(params).then(function(res){
-        console.log("RES: ", res );
+        console.log(res);
+        $scope.orderSelected = res;
+        FlashService.addAlert({
+          type: "success",
+          msg: "change was success.",
+          timeout: 10000
+        });
+        $scope.submitted = false;
       }).catch(function(err){
         console.log("ERR: ", err );
+
       });
     }
 
