@@ -51,7 +51,7 @@
             </table>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-danger">Cancel</button>
+            <button class="btn btn-danger" ng-click="close()">Close</button>
           </div>
         </div>
 
@@ -65,7 +65,6 @@
             <th>Price</th>
             <th>Original Price</th>
             <th>Card</th>
-            <th>Last4</th>
             <th>Processed</th>
           </tr>
           </thead>
@@ -75,9 +74,15 @@
             <td><input ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
             <td>{{pp.price | currency}}</td>
             <td>$<input ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
-            <td>{{pp.accountBrand}}</td>
-            <td>{{pp.last4}}</td>
-            <td>{{pp.wasProcessed == true ? "Yes" : "No"}}</td>
+            <td><select name="account"
+                        class="input-sm"
+                        ng-model="pp.account"
+                        ng-required="accounts.length > 1"
+                        ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts"
+                        ng-change="changeAccount(pp)">
+              <option value="" disabled>Select a account</option>
+            </select></td>
+            <td><input type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.wasProcessed"></td>
           </tr>
           </tbody>
         </table>

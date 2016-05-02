@@ -64,22 +64,38 @@ angular.module('convenienceApp')
 
     $scope.selectOrder = function(index){
       $scope.orderSelected = parceDatePaymentPlan($scope.searchResult.orders[index]);
+      loadAccounts($scope.orderSelected);
     }
 
     $scope.editPaymentPlan = function(pp){
       console.log('PP: ' , pp._id)
+      if(!$scope.orderSelected._id || !pp.originalPrice || !pp.description || !pp.dateCharge){
+        FlashService.addAlert({
+          type: "danger",
+          msg: "All params are required",
+          timeout: 10000
+        });
+        return;
+      }
+
+
+
       var params = {
         orderId : $scope.orderSelected._id,
         paymentPlanId: pp._id,
         originalPrice: pp.originalPrice,
         description: pp.description,
-        dateCharge: pp.dateCharge
+        dateCharge: pp.dateCharge,
+        wasProcessed: pp.wasProcessed,
+        account: pp.account,
+        accountBrand: pp.accountBrand,
+        last4: pp.last4,
+        typeAccount: pp.typeAccount
       }
 
       $scope.submitted = true;
 
       CommerceService.paymentPlanEdit(params).then(function(res){
-        console.log(res);
         $scope.orderSelected = parceDatePaymentPlan(res);
         FlashService.addAlert({
           type: "success",
@@ -92,6 +108,35 @@ angular.module('convenienceApp')
 
       });
     }
+
+    $scope.changeAccount = function(pp){
+      var objAccount = $scope.accounts.filter(function(ele){
+        if(pp.account === ele.id){
+          return ele;
+        }
+      });
+
+      if(!objAccount || objAccount.length < 1){
+        FlashService.addAlert({
+          type: "danger",
+          msg: "Credit card is required.",
+          timeout: 10000
+        });
+        return;
+      }
+
+      pp.account = objAccount[0].id;
+      pp.accountBrand = objAccount[0].brand;
+      pp.last4 = objAccount[0].last4;
+      pp.typeAccount = objAccount[0].object;
+
+      $scope.editPaymentPlan(pp);
+    };
+
+    $scope.close = function(){
+      $scope.orderSelected = null;
+    }
+
 
     function validatePeriod(period){
       var resp = true;
@@ -169,19 +214,7 @@ angular.module('convenienceApp')
           //$scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' });
 
 
-          data.paymentList.schedulePeriods.forEach(function(ele , idx ,arr){
-            ele.nextPaymentDue = new Date(ele.nextPaymentDue)
-            ele.price = parseFloat(ele.price)
-            ele.percent = parseFloat(ele.percent)
-            ele.fee = parseFloat(ele.fee)
-            ele.feePercent = parseFloat(ele.feePercent)
-            ele.discountToFee = parseFloat(ele.discountToFee)
-            ele.isCharged = ele.isCharged ? ele.isCharged : false;
-          });
-
-          $scope.paymentPlan = data.paymentList;
-
-          $scope.submitted = false;
+          console.log('lst accounts' , lst2);
 
         }, function(err2){
           $scope.sendAlertErrorMsg(err.data.message);

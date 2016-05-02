@@ -317,6 +317,7 @@ function editPaymentPlan(pp, params, cb){
   let originalPrice = params.originalPrice;
   let description = params.description;
   let dateCharge = params.dateCharge;
+  let wasProcessed = params.wasProcessed;
 
   PUScheduleConnect.calculatePrice({
     baseUrl: config.connections.schedule.baseUrl,
@@ -339,6 +340,11 @@ function editPaymentPlan(pp, params, cb){
       pp.originalPrice = originalPrice;
       pp.description = description;
       pp.dateCharge = dateCharge;
+      pp.wasProcessed = wasProcessed;
+      pp.account = params.account;
+      pp.accountBrand = params.accountBrand;
+      pp.last4 = params.last4;
+      pp.typeAccount =  params.typeAccount;
       return cb(null, pp);
     },
   });
