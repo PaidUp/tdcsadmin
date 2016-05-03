@@ -94,6 +94,21 @@ exports.editOrder = function(req , res){
 
 }
 
+exports.addPaymentPlan = function(req , res){
+  if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.originalPrice ||
+    !req.body.account) {
+    return handleError(res, {name : 'ValidationError' , message : 'These params are required: description, dateCharge, originalPrice, account' });
+  }
+
+  commerceService.addPaymentPlan(req.body, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.addPaymenPlan', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
 
 function handleError(res, err) {
   var httpErrorCode = 500;

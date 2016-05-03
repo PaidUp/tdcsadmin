@@ -17,6 +17,7 @@ angular.module('convenienceApp')
     $scope.submitted = false;
     $scope.orderPreview = 0;
     $scope.orderSelected = null;
+    $scope.newPaymentPlan = {};
     $scope.searchResult = [];
 
     function parceDatePaymentPlan(order){
@@ -63,12 +64,18 @@ angular.module('convenienceApp')
     }
 
     $scope.selectOrder = function(index){
+      $scope.submitted = true;
       $scope.orderSelected = parceDatePaymentPlan($scope.searchResult.orders[index]);
+      $scope.newPaymentPlan.orderId = $scope.orderSelected._id;
       loadAccounts($scope.orderSelected);
     }
 
+    $scope.retryPP = function(pp){
+      pp.status = 'pending';
+      $scope.editPaymentPlan(pp);
+    }
+
     $scope.editPaymentPlan = function(pp){
-      console.log('PP: ' , pp._id)
       if(!$scope.orderSelected._id || !pp.originalPrice || !pp.description || !pp.dateCharge){
         FlashService.addAlert({
           type: "danger",
@@ -90,7 +97,8 @@ angular.module('convenienceApp')
         account: pp.account,
         accountBrand: pp.accountBrand,
         last4: pp.last4,
-        typeAccount: pp.typeAccount
+        typeAccount: pp.typeAccount,
+        status: pp.status
       }
 
       $scope.submitted = true;
@@ -135,6 +143,48 @@ angular.module('convenienceApp')
 
     $scope.close = function(){
       $scope.orderSelected = null;
+    }
+
+    $scope.save = function(){
+      console.log('new pp' , $scope.newPaymentPlan);
+
+      if(!$scope.newPaymentPlan.orderId || !$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.originalPrice ||
+        !$scope.newPaymentPlan.account){
+        FlashService.addAlert({
+          type: "danger",
+          msg: "All fields are required.",
+          timeout: 10000
+        });
+        return;
+      }
+
+      var objAccount = $scope.accounts.filter(function(ele){
+        if($scope.newPaymentPlan.account === ele.id){
+          return ele;
+        }
+      });
+
+      $scope.newPaymentPlan.account = objAccount[0].id;
+      $scope.newPaymentPlan.accountBrand = objAccount[0].brand;
+      $scope.newPaymentPlan.last4 = objAccount[0].last4;
+      $scope.newPaymentPlan.typeAccount = objAccount[0].object;
+
+      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function(res){
+        $scope.orderSelected = parceDatePaymentPlan(res);
+        $scope.newPaymentPlan = {}
+        $scope.newPaymentPlan.orderId = res._id;
+
+        FlashService.addAlert({
+          type: "success",
+          msg: "change was success.",
+          timeout: 10000
+        });
+        $scope.submitted = false;
+      }).catch(function(err){
+        console.log("ERR: ", err );
+
+      });
+
     }
 
 
@@ -214,7 +264,7 @@ angular.module('convenienceApp')
           //$scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' });
 
 
-          console.log('lst accounts' , lst2);
+          $scope.submitted = false;
 
         }, function(err2){
           $scope.sendAlertErrorMsg(err.data.message);

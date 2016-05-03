@@ -270,6 +270,51 @@ function orderSearch(params, cb){
 
 }
 
+function addPaymentPlan(params, cb){
+  getPaymentPlan(params.orderId, null, function(err, pp){
+    if(err){
+      return cb(err);
+    }else{
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          return cb(err2);
+        }else{
+
+          pp2.attempts = [];
+          delete pp2.id;
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            orderId : params.orderId,
+            paymentsPlan: [pp2]
+          }
+
+          console.log("PPE: ", JSON.stringify(ppe));
+
+          PUCommerceConnect.orderAddPayments(ppe).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+
+              console.log('err', err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              console.log('ORDER Result: ', JSON.stringify(orderResult))
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
+  });
+
+
+
+}
+
 function editOrder(params, cb){
   getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
     if(err){
@@ -317,7 +362,8 @@ function editPaymentPlan(pp, params, cb){
   let originalPrice = params.originalPrice;
   let description = params.description;
   let dateCharge = params.dateCharge;
-  let wasProcessed = params.wasProcessed;
+  let status = params.status;
+  let wasProcessed = params.wasProcessed || false;
 
   PUScheduleConnect.calculatePrice({
     baseUrl: config.connections.schedule.baseUrl,
@@ -345,6 +391,8 @@ function editPaymentPlan(pp, params, cb){
       pp.accountBrand = params.accountBrand;
       pp.last4 = params.last4;
       pp.typeAccount =  params.typeAccount;
+      pp.totalFee = result.body.totalFee;
+      pp.status = status;
       return cb(null, pp);
     },
   });
@@ -364,13 +412,16 @@ function getPaymentPlan(orderId, paymentPlanId, cb){
 // OK.
     success: function (result){
       let res = null;
-      result.body.orders[0].paymentsPlan.map(function(pp){
-        if(pp._id === paymentPlanId){
-          res = pp;
-        }
-      });
+      if(!paymentPlanId){
+        res = result.body.orders[0].paymentsPlan[0]
+      }else{
+        result.body.orders[0].paymentsPlan.map(function(pp){
+          if(pp._id === paymentPlanId){
+            res = pp;
+          }
+        });
+      }
       if(res){
-        console.log("RES###: ", res);
         return cb(null, res);
       }
       return cb('payment plan not found')
@@ -399,3 +450,4 @@ exports.createShipment = createShipment;
 exports.getOrderBasic = getOrderBasic
 exports.orderSearch = orderSearch;
 exports.editOrder = editOrder;
+exports.addPaymentPlan = addPaymentPlan;

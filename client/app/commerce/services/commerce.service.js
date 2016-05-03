@@ -16,6 +16,9 @@ angular.module('convenienceApp')
     var PaymentPlanEdit = $resource('/api/v1/commerce/order/edit', {}, {
       post: { method:'POST', isArray: false }});
 
+    var PaymentPlanAdd = $resource('/api/v1/commerce/order/add', {}, {
+      post: { method:'POST', isArray: false }});
+
 
     this.getOrders = function () {
       return Orders.query().$promise;
@@ -31,6 +34,10 @@ angular.module('convenienceApp')
 
     this.paymentPlanEdit = function (params) {
       return PaymentPlanEdit.post(params).$promise;
+    };
+
+    this.paymentPlanAdd = function (params) {
+      return PaymentPlanAdd.post(params).$promise;
     };
 
     this.getOrderBasic = function (orderId) {

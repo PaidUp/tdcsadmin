@@ -65,16 +65,19 @@
             <th>Price</th>
             <th>Original Price</th>
             <th>Card</th>
+            <th>Status</th>
             <th>Processed</th>
+            <th>Disable</th>
           </tr>
           </thead>
           <tbody>
           <tr ng-repeat="pp in orderSelected.paymentsPlan">
-            <td><input ng-blur="editPaymentPlan(pp)" type="text" ng-model="pp.description"  class="input-sm"></td>
-            <td><input ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
+            <td><input ng-disabled="pp.status==='disable'" ng-blur="editPaymentPlan(pp)" type="text" ng-model="pp.description"  class="input-sm"></td>
+            <td><input ng-disabled="pp.status==='disable'" ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
             <td>{{pp.price | currency}}</td>
-            <td>$<input ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
+            <td>$<input ng-disabled="pp.status==='disable'" ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
             <td><select name="account"
+                        ng-disabled="pp.status==='disable'"
                         class="input-sm"
                         ng-model="pp.account"
                         ng-required="accounts.length > 1"
@@ -82,7 +85,25 @@
                         ng-change="changeAccount(pp)">
               <option value="" disabled>Select a account</option>
             </select></td>
-            <td><input type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.wasProcessed"></td>
+            <td>{{pp.status}}</td>
+            <td><input ng-disabled="pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="retryPP(pp)" ng-model="pp.wasProcessed"></td>
+            <td><input type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'"></td>
+          </tr>
+
+          <tr>
+            <td><input type="text" ng-model="newPaymentPlan.description"  class="input-sm"></td>
+            <td><input type="datetime-local" ng-model="newPaymentPlan.dateCharge"  class="input-sm"></td>
+            <td>0</td>
+            <td>$<input type="number" ng-model="newPaymentPlan.originalPrice"  class="input-sm"></td>
+            <td><select name="account"
+                        class="input-sm"
+                        ng-model="newPaymentPlan.account"
+                        ng-required="accounts.length > 1"
+                        ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts">
+              <option value="" disabled>Select a account</option>
+            </select></td>
+            <td>pending</td>
+            <td><button class="btn btn-default" ng-click="save()">Save</button></td>
           </tr>
           </tbody>
         </table>
@@ -121,7 +142,7 @@
             </table>
           </div>
           <div class="col-md-1">
-            <button class="btn btn-success" ng-click="selectOrder($index)">Edit</button>
+            <button ng-if="ord.status ==='active'" class="btn btn-success" ng-click="selectOrder($index)">Edit</button>
           </div>
         </div>
 
@@ -135,6 +156,7 @@
             <th>Price</th>
             <th>Card</th>
             <th>Last4</th>
+            <th>Status</th>
             <th>Processed</th>
           </tr>
           </thead>
@@ -145,6 +167,7 @@
             <td>{{pp.price | currency}}</td>
             <td>{{pp.accountBrand}}</td>
             <td>{{pp.last4}}</td>
+            <td>{{pp.status}}</td>
             <td>{{pp.wasProcessed == true ? "Yes" : "No"}}</td>
           </tr>
           </tbody>
