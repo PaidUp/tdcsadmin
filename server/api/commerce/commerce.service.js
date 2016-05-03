@@ -281,6 +281,7 @@ function addPaymentPlan(params, cb){
         }else{
 
           pp2.attempts = [];
+          pp2.status = "pending"
           delete pp2.id;
 
           let ppe = {
