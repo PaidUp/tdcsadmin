@@ -87,7 +87,7 @@
             </select></td>
             <td>{{pp.status}}</td>
             <td><input ng-disabled="pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="retryPP(pp)" ng-model="pp.wasProcessed"></td>
-            <td><input type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'"></td>
+            <td><input ng-if="pp.status!=='succeeded'" type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'"></td>
           </tr>
 
           <tr>
@@ -103,7 +103,7 @@
               <option value="" disabled>Select a account</option>
             </select></td>
             <td>pending</td>
-            <td><button class="btn btn-default" ng-click="save()">Save</button></td>
+            <td colspan="2"><button class="btn btn-default" ng-click="save()">Save</button></td>
           </tr>
           </tbody>
         </table>
