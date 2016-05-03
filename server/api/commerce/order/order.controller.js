@@ -63,6 +63,53 @@ exports.getOrderBasic = function(req , res){
 
 }
 
+exports.orderSearch = function(req , res){
+  if (!req.body.params) {
+    return handleError(res, {name : 'ValidationError' , message : 'params is required' });
+  }
+
+  commerceService.orderSearch(req.body.params, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.orderSearch', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data);
+  });
+
+}
+
+exports.editOrder = function(req , res){
+  if (!req.body.orderId) {
+    return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
+  }
+  if (!req.body.paymentPlanId) {
+    return handleError(res, {name : 'ValidationError' , message : 'paymen plan id is required' });
+  }
+
+  commerceService.editOrder(req.body, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
+exports.addPaymentPlan = function(req , res){
+  if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.originalPrice ||
+    !req.body.account) {
+    return handleError(res, {name : 'ValidationError' , message : 'These params are required: description, dateCharge, originalPrice, account' });
+  }
+
+  commerceService.addPaymentPlan(req.body, function(err, data){
+    if (err) {
+      return res.status(500).json({code : 'commerceService.addPaymenPlan', message : JSON.stringify(err)});
+    }
+    return res.status(200).json(data.body);
+  });
+
+}
+
+
 function handleError(res, err) {
   var httpErrorCode = 500;
   var errors = [];

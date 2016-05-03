@@ -78,6 +78,12 @@
                 </a>
               </li>
               <li ng-if="isAdmin()">
+                <a href="" ui-sref="order-admin" ng-click="toggleMenu()" id="order-admin">
+                  <span class="glyphicon glyphicon-briefcase"></span>
+                  Orders V3
+                </a>
+              </li>
+              <li ng-if="isAdmin()">
                 <a href="" ui-sref="organizations-admin" ng-click="toggleMenu()" id="organizations-admin">
                   <span class="glyphicon glyphicon-briefcase"></span>
                   Organizations

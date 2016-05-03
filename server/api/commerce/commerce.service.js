@@ -1,13 +1,14 @@
 'use strict';
 
 var paymentService = require('../payment/payment.service');
-var loanService = require('../loan/loan.service');
 var async = require('async');
 var TDCommerceService = require('TDCore').commerceService;
 var config = require('../../config/environment');
 var logger = require('../../config/logger');
 var providerService = require('./provider/provider.service');
 var Provider = require('./provider/provider.model');
+var PUCommerceConnect = require('paidup-commerce-connect')
+var PUScheduleConnect = require('paidup-schedule-connect')
 TDCommerceService.init(config.connections.commerce);
 
 var ORDER_STATUS = {
@@ -250,6 +251,184 @@ function createShipment(orderList, cb){
   });
 }
 
+function orderSearch(params, cb){
+
+  PUCommerceConnect.orderSearch({
+    baseUrl : config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    params: params
+  }).exec({
+    // An unexpected error occurred.
+    error: function (err) {
+      return cb(err)
+    },
+    // OK.
+    success: function (orderResult) {
+      return cb(null, orderResult)
+    },
+  });
+
+}
+
+function addPaymentPlan(params, cb){
+  getPaymentPlan(params.orderId, null, function(err, pp){
+    if(err){
+      return cb(err);
+    }else{
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          return cb(err2);
+        }else{
+
+          pp2.attempts = [];
+          delete pp2.id;
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            orderId : params.orderId,
+            paymentsPlan: [pp2]
+          }
+
+          console.log("PPE: ", JSON.stringify(ppe));
+
+          PUCommerceConnect.orderAddPayments(ppe).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+
+              console.log('err', err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              console.log('ORDER Result: ', JSON.stringify(orderResult))
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
+  });
+
+
+
+}
+
+function editOrder(params, cb){
+  getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
+    if(err){
+      return cb(err);
+    }else{
+      editPaymentPlan(pp, params, function(err2, pp2){
+        if(err2){
+          return cb(err2);
+        }else{
+
+          let ppe = {
+            baseUrl : config.connections.commerce.baseUrl,
+            token: config.connections.commerce.token,
+            orderId : params.orderId,
+            paymentPlanId : params.paymentPlanId,
+            paymentPlan: pp2
+          }
+
+          console.log("PPE: ", JSON.stringify(ppe));
+
+          PUCommerceConnect.orderUpdatePayments(ppe).exec({
+            // An unexpected error occurred.
+            error: function (err) {
+
+              console.log('err', err)
+
+              return cb(err)
+            },
+            // OK.
+            success: function (orderResult) {
+              console.log('ORDER Result: ', JSON.stringify(orderResult))
+              return cb(null, orderResult)
+            },
+          });
+        }
+      })
+    }
+  });
+
+
+
+}
+
+function editPaymentPlan(pp, params, cb){
+  let originalPrice = params.originalPrice;
+  let description = params.description;
+  let dateCharge = params.dateCharge;
+  let status = params.status;
+  let wasProcessed = params.wasProcessed || false;
+
+  PUScheduleConnect.calculatePrice({
+    baseUrl: config.connections.schedule.baseUrl,
+    token: config.connections.schedule.token,
+    originalPrice: originalPrice,
+    stripePercent: pp.processingFees.cardFeeDisplay,
+    stripeFlat: pp.processingFees.cardFeeFlatDisplay,
+    paidUpFee: pp.collectionsFee.fee,
+    discount: pp.discount,
+    payProcessing: pp.paysFees.processing,
+    payCollecting: pp.paysFees.collections,
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err);
+    },
+// OK.
+    success: function (result){
+      pp.price = result.body.owedPrice;
+      pp.originalPrice = originalPrice;
+      pp.description = description;
+      pp.dateCharge = dateCharge;
+      pp.wasProcessed = wasProcessed;
+      pp.account = params.account;
+      pp.accountBrand = params.accountBrand;
+      pp.last4 = params.last4;
+      pp.typeAccount =  params.typeAccount;
+      pp.totalFee = result.body.totalFee;
+      pp.status = status;
+      return cb(null, pp);
+    },
+  });
+}
+
+function getPaymentPlan(orderId, paymentPlanId, cb){
+  PUCommerceConnect.orderGet({
+    baseUrl: config.connections.commerce.baseUrl,
+    token: config.connections.commerce.token,
+    orderId: orderId,
+    limit: 1
+  }).exec({
+// An unexpected error occurred.
+    error: function (err){
+      return cb(err)
+    },
+// OK.
+    success: function (result){
+      let res = null;
+      if(!paymentPlanId){
+        res = result.body.orders[0].paymentsPlan[0]
+      }else{
+        result.body.orders[0].paymentsPlan.map(function(pp){
+          if(pp._id === paymentPlanId){
+            res = pp;
+          }
+        });
+      }
+      if(res){
+        return cb(null, res);
+      }
+      return cb('payment plan not found')
+    },
+  });
+}
+
 exports.addCommentToOrder = addCommentToOrder;
 exports.addTransactionToOrder = addTransactionToOrder;
 exports.orderHold = orderHold;
@@ -269,3 +448,6 @@ exports.getListOrdersComplete = getListOrdersComplete;
 exports.transactionList = transactionList;
 exports.createShipment = createShipment;
 exports.getOrderBasic = getOrderBasic
+exports.orderSearch = orderSearch;
+exports.editOrder = editOrder;
+exports.addPaymentPlan = addPaymentPlan;
