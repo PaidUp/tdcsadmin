@@ -111,7 +111,6 @@ angular.module('convenienceApp')
       $scope.accounts = [];
       $scope.clearNewPeriod();
       scheduleService.scheduleInfoFull(order.incrementId).then(function(data){
-        console.log('data' , data)
         if(!data || !data.paymentList || !data.paymentList.schedulePeriods){
           FlashService.addAlert({
             type: "warning",

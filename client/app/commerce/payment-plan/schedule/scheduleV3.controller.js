@@ -52,7 +52,6 @@ angular.module('convenienceApp')
       $scope.orderSelected = null;
 
       CommerceService.orderSearch(searchCriteria).then(function(result){
-        console.log(result)
         $scope.searchResult = result.body;
         $scope.submitted = false;
       }).catch(function(err){
@@ -146,8 +145,6 @@ angular.module('convenienceApp')
     }
 
     $scope.save = function(){
-      console.log('new pp' , $scope.newPaymentPlan);
-
       if(!$scope.newPaymentPlan.orderId || !$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.originalPrice ||
         !$scope.newPaymentPlan.account){
         FlashService.addAlert({
