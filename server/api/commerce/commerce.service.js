@@ -317,8 +317,14 @@ function addPaymentPlan(params, cb){
 }
 
 function editOrder(params, cb){
+
+  console.log("PPE: ", JSON.stringify(params));
+
   getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
     if(err){
+
+      console.log("ERRRR: ", err);
+
       return cb(err);
     }else{
       editPaymentPlan(pp, params, function(err2, pp2){
@@ -334,7 +340,7 @@ function editOrder(params, cb){
             paymentPlan: pp2
           }
 
-          console.log("PPE: ", JSON.stringify(ppe));
+
 
           PUCommerceConnect.orderUpdatePayments(ppe).exec({
             // An unexpected error occurred.

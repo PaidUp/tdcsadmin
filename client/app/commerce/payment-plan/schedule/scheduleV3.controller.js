@@ -100,6 +100,8 @@ angular.module('convenienceApp')
         status: pp.status
       }
 
+      console.log('PARAMS: ', params);
+
       $scope.submitted = true;
 
       CommerceService.paymentPlanEdit(params).then(function(res){
