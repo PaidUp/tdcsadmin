@@ -84,8 +84,6 @@ angular.module('convenienceApp')
         return;
       }
 
-
-
       var params = {
         orderId : $scope.orderSelected._id,
         paymentPlanId: pp._id,
@@ -99,8 +97,6 @@ angular.module('convenienceApp')
         typeAccount: pp.typeAccount,
         status: pp.status
       }
-
-      console.log('PARAMS: ', params);
 
       $scope.submitted = true;
 
