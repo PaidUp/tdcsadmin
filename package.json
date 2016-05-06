@@ -34,6 +34,8 @@
     "ngstorage": "0.3.9",
     "node-uuid": "1.4.3",
     "nodemailer": "1.4.0",
+    "paidup-commerce-connect": "^0.8.6",
+    "paidup-schedule-connect": "^2.2.11",
     "passport": "0.3.0",
     "passport-local": "1.0.0",
     "serve-favicon": "2.3.0",
