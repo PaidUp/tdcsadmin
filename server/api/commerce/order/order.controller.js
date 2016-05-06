@@ -78,13 +78,14 @@ exports.orderSearch = function(req , res){
 }
 
 exports.editOrder = function(req , res){
+  let user = req.user;
   if (!req.body.orderId) {
     return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
   }
   if (!req.body.paymentPlanId) {
     return handleError(res, {name : 'ValidationError' , message : 'paymen plan id is required' });
   }
-
+  req.body.userSysId = user._id;
   commerceService.editOrder(req.body, function(err, data){
     if (err) {
       return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
@@ -95,11 +96,13 @@ exports.editOrder = function(req , res){
 }
 
 exports.addPaymentPlan = function(req , res){
+  let user = req.user;
   if (!req.body.orderId || !req.body.description || !req.body.dateCharge || !req.body.originalPrice ||
     !req.body.account) {
     return handleError(res, {name : 'ValidationError' , message : 'These params are required: description, dateCharge, originalPrice, account' });
   }
 
+  req.body.userSysId = user._id;
   commerceService.addPaymentPlan(req.body, function(err, data){
     if (err) {
       return res.status(500).json({code : 'commerceService.addPaymenPlan', message : JSON.stringify(err)});

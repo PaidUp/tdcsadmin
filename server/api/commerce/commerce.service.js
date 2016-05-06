@@ -279,7 +279,6 @@ function addPaymentPlan(params, cb){
         if(err2){
           return cb(err2);
         }else{
-
           pp2.attempts = [];
           pp2.status = "pending"
           delete pp2.id;
@@ -287,11 +286,10 @@ function addPaymentPlan(params, cb){
           let ppe = {
             baseUrl : config.connections.commerce.baseUrl,
             token: config.connections.commerce.token,
+            userSysId: params.userSysId,
             orderId : params.orderId,
             paymentsPlan: [pp2]
           }
-
-          console.log("PPE: ", JSON.stringify(ppe));
 
           PUCommerceConnect.orderAddPayments(ppe).exec({
             // An unexpected error occurred.
@@ -317,14 +315,8 @@ function addPaymentPlan(params, cb){
 }
 
 function editOrder(params, cb){
-
-  console.log("PPE: ", JSON.stringify(params));
-
   getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
     if(err){
-
-      console.log("ERRRR: ", err);
-
       return cb(err);
     }else{
       editPaymentPlan(pp, params, function(err2, pp2){
@@ -335,13 +327,11 @@ function editOrder(params, cb){
           let ppe = {
             baseUrl : config.connections.commerce.baseUrl,
             token: config.connections.commerce.token,
-            orderId : params.orderId,
+            orderId: params.orderId,
+            userSysId: params.userSysId,
             paymentPlanId : params.paymentPlanId,
             paymentPlan: pp2
           }
-
-
-
           PUCommerceConnect.orderUpdatePayments(ppe).exec({
             // An unexpected error occurred.
             error: function (err) {
