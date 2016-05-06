@@ -4,21 +4,24 @@
     Search Orders V3
   </h4>
   <hr>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="input-group" ng-form="searchForm">
-        <input type="text" name="criteria" class="form-control" placeholder="Order number, email, beneficiary..." ng-model="searchCriteria"
-               required>
+  <form ng-submit="search(searchCriteria)">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group" ng-form="searchForm">
+          <input type="text" name="criteria" class="form-control" placeholder="Order number, email, beneficiary..." ng-model="searchCriteria"
+                 required>
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button" ng-click="search(searchCriteria)">Go!</button>
+        <input class="btn btn-default" type="submit" id="submit" value="Go!">
       </span>
-      </div>
+        </div>
 
-      <div class="text-CS text-center" ng-show="searchForm.orderId.$error.required && submitted">
-        <small class="text-CS">This field is required</small>
+        <div class="text-CS text-center" ng-show="searchForm.orderId.$error.required && submitted">
+          <small class="text-CS">This field is required</small>
+        </div>
       </div>
     </div>
-  </div>
+  </form>
+
 
 <br/>
 
