@@ -1,32 +1,31 @@
 angular.module('convenienceApp')
   .controller('ScheduleV3Ctrl', function ($scope, $rootScope, scheduleService, FlashService, CommerceService,
-                                        PaymentService, $q) {
-
+    PaymentService, $q) {
     $rootScope.$emit('bar-welcome', {
-      left:{
+      left: {
         url: '/app/application/menu/admin/admin-bar.html'
-      } ,
-      right:{
+      },
+      right: {
         url: ''
       }
-    });
+    })
 
-    $scope.searchCriteria = '';
-    $scope.scheduleNew = {isCharged : false};
-    $scope.accounts = [];
-    $scope.submitted = false;
-    $scope.orderPreview = 0;
-    $scope.orderSelected = null;
-    $scope.newPaymentPlan = {};
-    $scope.searchResult = [];
+    $scope.searchCriteria = ''
+    $scope.scheduleNew = {isCharged: false}
+    $scope.accounts = []
+    $scope.submitted = false
+    $scope.orderPreview = 0
+    $scope.orderSelected = null
+    $scope.newPaymentPlan = {}
+    $scope.searchResult = []
 
-    function parceDatePaymentPlan(order){
-      var paymentPlans = order.paymentsPlan.map(function(pp){
-        pp.dateCharge = new Date(pp.dateCharge);
-        return pp;
-      });
-      order.paymentPlans = paymentPlans;
-      return order;
+    function parceDatePaymentPlan (order) {
+      var paymentPlans = order.paymentsPlan.map(function (pp) {
+        pp.dateCharge = new Date(pp.dateCharge)
+        return pp
+      })
+      order.paymentPlans = paymentPlans
+      return order
     }
 
     $scope.sendAlertErrorMsg = function (msg) {
@@ -34,58 +33,55 @@ angular.module('convenienceApp')
         type: 'danger',
         msg: msg,
         timeout: 10000
-      });
-    };
+      })
+    }
 
-    $scope.setPreview = function(index){
-      if($scope.orderPreview == index){
-        $scope.orderPreview = null;
+    $scope.setPreview = function (index) {
+      if ($scope.orderPreview == index) {
+        $scope.orderPreview = null
       } else {
-        $scope.orderPreview = index;
+        $scope.orderPreview = index
       }
-
     }
 
-    $scope.search = function(searchCriteria) {
-      $scope.submitted = true;
-      $scope.accounts = [];
-      $scope.orderSelected = null;
+    $scope.search = function (searchCriteria) {
+      $scope.submitted = true
+      $scope.accounts = []
+      $scope.orderSelected = null
 
-      CommerceService.orderSearch(searchCriteria).then(function(result){
-        $scope.searchResult = result.body;
-        $scope.submitted = false;
-      }).catch(function(err){
+      CommerceService.orderSearch(searchCriteria).then(function (result) {
+        $scope.searchResult = result.body
+        $scope.submitted = false
+      }).catch(function (err) {
         $scope.sendAlertErrorMsg(JSON.stringify(err))
-        $scope.submitted = false;
-      });
-
-
+        $scope.submitted = false
+      })
     }
 
-    $scope.selectOrder = function(index){
-      $scope.submitted = true;
-      $scope.orderSelected = parceDatePaymentPlan($scope.searchResult.orders[index]);
-      $scope.newPaymentPlan.orderId = $scope.orderSelected._id;
-      loadAccounts($scope.orderSelected);
+    $scope.selectOrder = function (index) {
+      $scope.submitted = true
+      $scope.orderSelected = parceDatePaymentPlan($scope.searchResult.orders[index])
+      $scope.newPaymentPlan.orderId = $scope.orderSelected._id
+      loadAccounts($scope.orderSelected)
     }
 
-    $scope.retryPP = function(pp){
-      pp.status = 'pending';
-      $scope.editPaymentPlan(pp);
+    $scope.retryPP = function (pp) {
+      pp.status = 'pending'
+      $scope.editPaymentPlan(pp)
     }
 
-    $scope.editPaymentPlan = function(pp){
-      if(!$scope.orderSelected._id || !pp.originalPrice || !pp.description || !pp.dateCharge){
+    $scope.editPaymentPlan = function (pp) {
+      if (!$scope.orderSelected._id || !pp.originalPrice || !pp.description || !pp.dateCharge) {
         FlashService.addAlert({
-          type: "danger",
-          msg: "All params are required",
+          type: 'danger',
+          msg: 'All params are required',
           timeout: 10000
-        });
-        return;
+        })
+        return
       }
 
       var params = {
-        orderId : $scope.orderSelected._id,
+        orderId: $scope.orderSelected._id,
         paymentPlanId: pp._id,
         originalPrice: pp.originalPrice,
         description: pp.description,
@@ -98,176 +94,166 @@ angular.module('convenienceApp')
         status: pp.status
       }
 
-      $scope.submitted = true;
+      $scope.submitted = true
 
-      CommerceService.paymentPlanEdit(params).then(function(res){
-        $scope.orderSelected = parceDatePaymentPlan(res);
+      CommerceService.paymentPlanEdit(params).then(function (res) {
+        $scope.orderSelected = parceDatePaymentPlan(res)
         FlashService.addAlert({
-          type: "success",
-          msg: "change was success.",
+          type: 'success',
+          msg: 'change was success.',
           timeout: 10000
-        });
-        $scope.submitted = false;
-      }).catch(function(err){
-        console.log("ERR: ", err );
-
-      });
+        })
+        $scope.submitted = false
+      }).catch(function (err) {
+        console.log('ERR: ', err)
+      })
     }
 
-    $scope.changeAccount = function(pp){
-      var objAccount = $scope.accounts.filter(function(ele){
-        if(pp.account === ele.id){
-          return ele;
+    $scope.changeAccount = function (pp) {
+      var objAccount = $scope.accounts.filter(function (ele) {
+        if (pp.account === ele.id) {
+          return ele
         }
-      });
+      })
 
-      if(!objAccount || objAccount.length < 1){
+      if (!objAccount || objAccount.length < 1) {
         FlashService.addAlert({
-          type: "danger",
-          msg: "Credit card is required.",
+          type: 'danger',
+          msg: 'Credit card is required.',
           timeout: 10000
-        });
-        return;
+        })
+        return
       }
 
-      pp.account = objAccount[0].id;
-      pp.accountBrand = objAccount[0].brand;
-      pp.last4 = objAccount[0].last4;
-      pp.typeAccount = objAccount[0].object;
+      pp.account = objAccount[0].id
+      pp.accountBrand = objAccount[0].brand
+      pp.last4 = objAccount[0].last4
+      pp.typeAccount = objAccount[0].object
 
-      $scope.editPaymentPlan(pp);
-    };
-
-    $scope.close = function(){
-      $scope.orderSelected = null;
+      $scope.editPaymentPlan(pp)
     }
 
-    $scope.save = function(){
-      if(!$scope.newPaymentPlan.orderId || !$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.originalPrice ||
-        !$scope.newPaymentPlan.account){
+    $scope.close = function () {
+      $scope.orderSelected = null
+    }
+
+    $scope.save = function () {
+      if (!$scope.newPaymentPlan.orderId || !$scope.newPaymentPlan.description || !$scope.newPaymentPlan.dateCharge || !$scope.newPaymentPlan.originalPrice ||
+        !$scope.newPaymentPlan.account) {
         FlashService.addAlert({
-          type: "danger",
-          msg: "All fields are required.",
+          type: 'danger',
+          msg: 'All fields are required.',
           timeout: 10000
-        });
-        return;
+        })
+        return
       }
 
-      var objAccount = $scope.accounts.filter(function(ele){
-        if($scope.newPaymentPlan.account === ele.id){
-          return ele;
+      var objAccount = $scope.accounts.filter(function (ele) {
+        if ($scope.newPaymentPlan.account === ele.id) {
+          return ele
         }
-      });
+      })
 
-      $scope.newPaymentPlan.account = objAccount[0].id;
-      $scope.newPaymentPlan.accountBrand = objAccount[0].brand;
-      $scope.newPaymentPlan.last4 = objAccount[0].last4;
-      $scope.newPaymentPlan.typeAccount = objAccount[0].object;
+      $scope.newPaymentPlan.account = objAccount[0].id
+      $scope.newPaymentPlan.accountBrand = objAccount[0].brand
+      $scope.newPaymentPlan.last4 = objAccount[0].last4
+      $scope.newPaymentPlan.typeAccount = objAccount[0].object
 
-      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function(res){
-        $scope.orderSelected = parceDatePaymentPlan(res);
+      CommerceService.paymentPlanAdd($scope.newPaymentPlan).then(function (res) {
+        $scope.orderSelected = parceDatePaymentPlan(res)
         $scope.newPaymentPlan = {}
-        $scope.newPaymentPlan.orderId = res._id;
+        $scope.newPaymentPlan.orderId = res._id
 
         FlashService.addAlert({
-          type: "success",
-          msg: "change was success.",
+          type: 'success',
+          msg: 'change was success.',
           timeout: 10000
-        });
-        $scope.submitted = false;
-      }).catch(function(err){
-        console.log("ERR: ", err );
-
-      });
-
+        })
+        $scope.submitted = false
+      }).catch(function (err) {
+        console.log('ERR: ', err)
+      })
     }
 
+    function validatePeriod (period) {
+      var resp = true
 
-    function validatePeriod(period){
-      var resp = true;
-
-      if(!period.price){
-        resp = false;
+      if (!period.price) {
+        resp = false
       }
-      else if(!period.nextPaymentDue){
-        resp = false;
+      else if (!period.nextPaymentDue) {
+        resp = false
       }
-      else if(!period.description){
-        resp = false;
+      else if (!period.description) {
+        resp = false
       }
-      else if(!period.accountId){
-        resp = false;
+      else if (!period.accountId) {
+        resp = false
       }
 
-      if(!resp){
+      if (!resp) {
         FlashService.addAlert({
-          type: "danger",
-          msg: "All fields are required.",
+          type: 'danger',
+          msg: 'All fields are required.',
           timeout: 10000
-        });
-        $scope.submitted = false;
+        })
+        $scope.submitted = false
       }
 
-      return resp;
-
+      return resp
     }
 
-    function loadBankAccounts(userId, lstAccount){
-      return $q(function(resolve, reject){
-        setTimeout(function(){
+    function loadBankAccounts (userId, lstAccount) {
+      return $q(function (resolve, reject) {
+        setTimeout(function () {
           PaymentService.listBankAccounts(userId).then(function (response) {
-            response.data.forEach(function(ele, idx, arr){
-              ele.accountName = ele.bankName + ' ending in ';
+            response.data.forEach(function (ele, idx, arr) {
+              ele.accountName = ele.bankName + ' ending in '
               lstAccount.push(ele)
-            });
-            resolve(lstAccount);
-          }).catch(function (err) {
-            reject(err.data.message);
-          });
-        }, 1000);
-      });
-    };
-
-    function loadCreditCardAccounts(userId, lstAccount){
-      return $q(function(resolve, reject){
-        setTimeout(function(){
-          PaymentService.listCards(userId).then(function (response) {
-            response.data.forEach(function(card, idx, arr){
-              card.nameOnCard = card.name;
-              card.cardNumber = card.last4;
-              card.expirationDate = {};
-              card.expirationDate.month = card.expirationMonth;
-              card.expirationDate.year = card.expirationYear;
-              card.securityCode = card.cvv;
-              card.token = card.id;
-              card.accountName = card.brand + ' ending in ';
-              lstAccount.push(card)
-            });
-            resolve(lstAccount);
+            })
+            resolve(lstAccount)
           }).catch(function (err) {
             reject(err.data.message)
-          });
-
-        }, 1000);
-      });
-    };
-
-    function loadAccounts(order){
-      loadBankAccounts(order.userId, $scope.accounts).then(function(lst){
-        loadCreditCardAccounts(order.userId, lst).then(function(lst2){
-          //$scope.accounts.push({ accountName: 'Create a new credit card' });
-          //$scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' });
-
-
-          $scope.submitted = false;
-
-        }, function(err2){
-          $scope.sendAlertErrorMsg(err.data.message);
-        });
-      }, function(err){
-        $scope.sendAlertErrorMsg(err.data.message);
-      });
+          })
+        }, 1000)
+      })
     }
 
+    function loadCreditCardAccounts (userId, lstAccount) {
+      return $q(function (resolve, reject) {
+        setTimeout(function () {
+          PaymentService.listCards(userId).then(function (response) {
+            response.data.forEach(function (card, idx, arr) {
+              card.nameOnCard = card.name
+              card.cardNumber = card.last4
+              card.expirationDate = {}
+              card.expirationDate.month = card.expirationMonth
+              card.expirationDate.year = card.expirationYear
+              card.securityCode = card.cvv
+              card.token = card.id
+              card.accountName = card.brand + ' ending in '
+              lstAccount.push(card)
+            })
+            resolve(lstAccount)
+          }).catch(function (err) {
+            reject(err.data.message)
+          })
+        }, 1000)
+      })
+    }
 
-  });
+    function loadAccounts (order) {
+      loadBankAccounts(order.userId, $scope.accounts).then(function (lst) {
+        loadCreditCardAccounts(order.userId, lst).then(function (lst2) {
+          // $scope.accounts.push({ accountName: 'Create a new credit card' })
+          // $scope.accounts.push({ accountName : 'Create a new bank account' , last4: '' })
+
+          $scope.submitted = false
+        }, function (err2) {
+          $scope.sendAlertErrorMsg(err2.data.message)
+        })
+      }, function (err) {
+        $scope.sendAlertErrorMsg(err.data.message)
+      })
+    }
+  })

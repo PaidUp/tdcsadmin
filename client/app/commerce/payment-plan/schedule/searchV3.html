@@ -40,6 +40,7 @@
                 <th>Company</th>
                 <th>Team</th>
                 <th>Status</th>
+                <th>Description</th>
               </tr>
               <tr>
                 <td>{{orderSelected.orderId}}</td>
@@ -50,6 +51,7 @@
                 <td>{{orderSelected.paymentsPlan[0].productInfo.organizationName}}</td>
                 <td>{{orderSelected.paymentsPlan[0].productInfo.productName}}</td>
                 <td>{{orderSelected.status}}</td>
+                <td>{{orderSelected.description}}</td>
               </tr>
             </table>
           </div>
@@ -131,6 +133,7 @@
                 <th>Company</th>
                 <th>Team</th>
                 <th>Status</th>
+                <th>Description</th>
               </tr>
               <tr>
                 <td>{{ord.orderId | uppercase}}</td>
@@ -141,6 +144,7 @@
                 <td>{{ord.paymentsPlan[0].productInfo.organizationName}}</td>
                 <td>{{ord.paymentsPlan[0].productInfo.productName}}</td>
                 <td>{{ord.status}}</td>
+                <td>{{ord.description}}</td>
               </tr>
             </table>
           </div>
