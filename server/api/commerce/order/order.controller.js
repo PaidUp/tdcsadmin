@@ -78,6 +78,9 @@ exports.orderSearch = function(req , res){
 }
 
 exports.editOrder = function(req , res){
+
+  console.log('req.body', req.body)
+
   let user = req.user;
   if (!req.body.orderId) {
     return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
@@ -87,6 +90,7 @@ exports.editOrder = function(req , res){
   }
   req.body.userSysId = user._id;
   commerceService.editOrder(req.body, function(err, data){
+
     if (err) {
       return res.status(500).json({code : 'commerceService.editOrder', message : JSON.stringify(err)});
     }
@@ -120,7 +124,7 @@ function handleError(res, err) {
   if(err.name === "ValidationError") {
     httpErrorCode = 400;
   }
-  logger.log('error', err);
+  logger.log('EEEE####', err);
 
   return res.status(httpErrorCode).json({code : err.name, message : err.message, errors : err.errors});
 }

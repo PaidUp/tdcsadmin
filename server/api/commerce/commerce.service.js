@@ -275,6 +275,7 @@ function addPaymentPlan(params, cb){
     if(err){
       return cb(err);
     }else{
+      params.version = pp.version || 'v1';
       editPaymentPlan(pp, params, function(err2, pp2){
         if(err2){
           return cb(err2);
@@ -317,10 +318,13 @@ function addPaymentPlan(params, cb){
 function editOrder(params, cb){
   getPaymentPlan(params.orderId, params.paymentPlanId, function(err, pp){
     if(err){
+      console.log('throw ee', err)
       return cb(err);
     }else{
       editPaymentPlan(pp, params, function(err2, pp2){
         if(err2){
+          console.log('throw err2 ',err2)
+
           return cb(err2);
         }else{
 
@@ -332,17 +336,19 @@ function editOrder(params, cb){
             paymentPlanId : params.paymentPlanId,
             paymentPlan: pp2
           }
+
+          console.log('PPE: ',ppe)
+
           PUCommerceConnect.orderUpdatePayments(ppe).exec({
+
             // An unexpected error occurred.
             error: function (err) {
-
-              console.log('err', err)
+              console.log('throw err3 ',err)
 
               return cb(err)
             },
             // OK.
             success: function (orderResult) {
-              console.log('ORDER Result: ', JSON.stringify(orderResult))
               return cb(null, orderResult)
             },
           });
@@ -363,6 +369,7 @@ function editPaymentPlan(pp, params, cb){
   let wasProcessed = params.wasProcessed || false;
 
   PUScheduleConnect.calculatePrice({
+    version: params.version,
     baseUrl: config.connections.schedule.baseUrl,
     token: config.connections.schedule.token,
     originalPrice: originalPrice,
@@ -379,7 +386,10 @@ function editPaymentPlan(pp, params, cb){
     },
 // OK.
     success: function (result){
+      result.body = JSON.parse(result.body);
+      pp.version = result.body.version;
       pp.price = result.body.owedPrice;
+      pp.basePrice = result.body.basePrice;
       pp.originalPrice = originalPrice;
       pp.description = description;
       pp.dateCharge = dateCharge;
@@ -389,6 +399,8 @@ function editPaymentPlan(pp, params, cb){
       pp.last4 = params.last4;
       pp.typeAccount =  params.typeAccount;
       pp.totalFee = result.body.totalFee;
+      pp.feeStripe = result.body.feeStripe;
+      pp.feePaidUp = result.body.feePaidUp;
       pp.status = status;
       return cb(null, pp);
     },
