@@ -50,6 +50,7 @@ angular.module('convenienceApp')
       $scope.orderSelected = null
 
       CommerceService.orderSearch(searchCriteria).then(function (result) {
+        console.log(result)
         $scope.searchResult = result.body
         $scope.submitted = false
       }).catch(function (err) {
@@ -81,6 +82,7 @@ angular.module('convenienceApp')
       }
 
       var params = {
+        version: pp.version || 'v1',
         orderId: $scope.orderSelected._id,
         paymentPlanId: pp._id,
         originalPrice: pp.originalPrice,
