@@ -67,9 +67,8 @@
           <thead><tr>
             <th>Description</th>
             <th>Charge</th>
-            <th>Charge Price</th>
             <th>Base Price</th>
-            <th>Original Price</th>
+            <th>Charge Price</th>
             <th>Card</th>
             <th>Status</th>
             <th>Processed</th>
@@ -80,7 +79,6 @@
           <tr ng-repeat="pp in orderSelected.paymentsPlan">
             <td><input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="text" ng-model="pp.description"  class="input-sm"></td>
             <td><input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
-            <td>{{pp.price | currency}}</td>
             <td>{{pp.basePrice | currency}}</td>
             <td>$<input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
             <td><select name="account"
@@ -100,7 +98,6 @@
           <tr>
             <td><input type="text" ng-model="newPaymentPlan.description"  class="input-sm"></td>
             <td><input type="datetime-local" ng-model="newPaymentPlan.dateCharge"  class="input-sm"></td>
-            <td>0</td>
             <td>0</td>
             <td>$<input type="number" ng-model="newPaymentPlan.originalPrice"  class="input-sm"></td>
             <td><select name="account"
@@ -163,7 +160,8 @@
           <thead><tr>
             <th>Description</th>
             <th>Charge</th>
-            <th>Price</th>
+            <th>Charge Price</th>
+            <th>Base Price</th>
             <th>Card</th>
             <th>Last4</th>
             <th>Status</th>
@@ -175,6 +173,7 @@
             <td>{{pp.description}}</td>
             <td>{{pp.dateCharge | date}}</td>
             <td>{{pp.price | currency}}</td>
+            <td>{{pp.basePrice | currency}}</td>
             <td>{{pp.accountBrand}}</td>
             <td>{{pp.last4}}</td>
             <td>{{pp.status}}</td>
