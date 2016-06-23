@@ -123,30 +123,33 @@
       <div class="panel-heading" >
         <div class="row">
           <div class="col-md-11">
-            <table class="table table-condensed" ng-click="setPreview($index)">
-              <tr>
-                <th>Order Id</th>
-                <th>User</th>
-                <th>Email</th>
-                <th>Beneficiary</th>
-                <th>Created At</th>
-                <th>Company</th>
-                <th>Team</th>
-                <th>Status</th>
-                <th>Description</th>
-              </tr>
-              <tr>
-                <td>{{ord.orderId | uppercase}}</td>
-                <td>{{ord.paymentsPlan[0].userInfo.userName}}</td>
-                <td>{{ord.paymentsPlan[0].email}}</td>
-                <td>{{ord.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</td>
-                <td>{{ord.createAt | date}}</td>
-                <td>{{ord.paymentsPlan[0].productInfo.organizationName}}</td>
-                <td>{{ord.paymentsPlan[0].productInfo.productName}}</td>
-                <td>{{ord.status}}</td>
-                <td>{{ord.description}}</td>
-              </tr>
-            </table>
+            <div class="table-responsive">
+              <table class="table table-condensed" ng-click="setPreview($index)">
+                <tr>
+                  <th>Order Id</th>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Beneficiary</th>
+                  <th>Created At</th>
+                  <th>Company</th>
+                  <th>Team</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>{{ord.orderId | uppercase}}</td>
+                  <td>{{ord.paymentsPlan[0].userInfo.userName}}</td>
+                  <td>{{ord.paymentsPlan[0].email}}</td>
+                  <td>{{ord.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</td>
+                  <td>{{ord.createAt | date}}</td>
+                  <td>{{ord.paymentsPlan[0].productInfo.organizationName}}</td>
+                  <td>{{ord.paymentsPlan[0].productInfo.productName}}</td>
+                  <td>{{ord.status}}</td>
+                  <td>{{ord.description}}</td>
+                </tr>
+              </table>
+
+            </div>
           </div>
           <div class="col-md-1">
             <button ng-if="ord.status ==='active'" class="btn btn-success" ng-click="selectOrder($index)">Edit</button>
@@ -181,7 +184,26 @@
           </tr>
           </tbody>
         </table>
+
+        <table class="table ">
+          <tr>
+            <th ng-repeat="(key, value) in ord.paymentsPlan[0].customInfo.formData">
+              <div ng-repeat="template in ord.paymentsPlan[0].customInfo.formTemplate">
+                <span ng-if="key === template.model">{{template.name}}</span>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <td ng-repeat="(key, value) in ord.paymentsPlan[0].customInfo.formData">
+              <div ng-repeat="template in ord.paymentsPlan[0].customInfo.formTemplate">
+                <span ng-if="key === template.model && (template.type === 'date' || template.type === 'datetime' || template.type === 'datetime-local')">{{value | date}}</span>
+                <span ng-if="key === template.model && !(template.type === 'date' || template.type === 'datetime' || template.type === 'datetime-local')">{{value}}</span>
+              </div>
+          </tr>
+        </table>
       </div>
+
+
     </div>
   </div>
 
