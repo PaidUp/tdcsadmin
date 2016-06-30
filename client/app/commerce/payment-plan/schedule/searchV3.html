@@ -1,0 +1,218 @@
+<div class="container">
+
+  <h4>
+    Search Orders V3
+  </h4>
+  <hr>
+  <form ng-submit="search(searchCriteria)">
+    <div class="row">
+      <div class="col-md-4">
+        <div class="input-group" ng-form="searchForm">
+          <input type="text" name="criteria" class="form-control" placeholder="Order number, email, beneficiary..." ng-model="searchCriteria"
+                 required>
+      <span class="input-group-btn">
+        <input class="btn btn-default" type="submit" id="submit" value="Go!">
+      </span>
+        </div>
+
+        <div class="text-CS text-center" ng-show="searchForm.orderId.$error.required && submitted">
+          <small class="text-CS">This field is required</small>
+        </div>
+      </div>
+    </div>
+  </form>
+
+
+<br/>
+
+  <div  ng-show="orderSelected">
+    <div class="panel panel-default" >
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-11">
+            <table class="table table-condensed">
+              <tr>
+                <th>Order Id</th>
+                <th>User</th>
+                <th>Email</th>
+                <th>Beneficiary</th>
+                <th>Created At</th>
+                <th>Company</th>
+                <th>Team</th>
+                <th>Status</th>
+                <th>Description</th>
+              </tr>
+              <tr>
+                <td>{{orderSelected.orderId}}</td>
+                <td>{{orderSelected.paymentsPlan[0].userInfo.userName}}</td>
+                <td>{{orderSelected.paymentsPlan[0].email}}</td>
+                <td>{{orderSelected.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</td>
+                <td>{{orderSelected.createAt | date}}</td>
+                <td>{{orderSelected.paymentsPlan[0].productInfo.organizationName}}</td>
+                <td>{{orderSelected.paymentsPlan[0].productInfo.productName}}</td>
+                <td>{{orderSelected.status}}</td>
+                <td>{{orderSelected.description}}</td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-danger" ng-click="close()">Close</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-condensed">
+          <thead><tr>
+            <th>Description</th>
+            <th>Charge</th>
+            <th>Base Price</th>
+            <th>Charge Price</th>
+            <th>Card</th>
+            <th>Status</th>
+            <th>Processed</th>
+            <th>Disable</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="pp in orderSelected.paymentsPlan">
+            <td><input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="text" ng-model="pp.description"  class="input-sm"></td>
+            <td><input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="datetime-local" ng-model="pp.dateCharge"  class="input-sm"></td>
+            <td>{{pp.basePrice | currency}}</td>
+            <td>$<input ng-disabled="pp.status==='disable' || pp.status==='succeeded'" ng-blur="editPaymentPlan(pp)" type="number" ng-model="pp.originalPrice"  class="input-sm"></td>
+            <td><select name="account"
+                        ng-disabled="pp.status==='disable' || pp.status==='succeeded'"
+                        class="input-sm"
+                        ng-model="pp.account"
+                        ng-required="accounts.length > 1"
+                        ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts"
+                        ng-change="changeAccount(pp)">
+              <option value="" disabled>Select a account</option>
+            </select></td>
+            <td>{{pp.status}}</td>
+            <td><input ng-if="pp.status!=='succeeded'"  ng-disabled="pp.status==='disable' || !pp.wasProcessed" type="checkbox" ng-change="retryPP(pp)" ng-model="pp.wasProcessed"></td>
+            <td><input ng-if="pp.status!=='succeeded'" type="checkbox" ng-change="editPaymentPlan(pp)" ng-model="pp.status" ng-true-value="'disable'" ng-false-value="'pending'"></td>
+          </tr>
+
+          <tr>
+            <td><input type="text" ng-model="newPaymentPlan.description"  class="input-sm"></td>
+            <td><input type="datetime-local" ng-model="newPaymentPlan.dateCharge"  class="input-sm"></td>
+            <td>0</td>
+            <td>$<input type="number" ng-model="newPaymentPlan.originalPrice"  class="input-sm"></td>
+            <td><select name="account"
+                        class="input-sm"
+                        ng-model="newPaymentPlan.account"
+                        ng-required="accounts.length > 1"
+                        ng-options="accountObj.id as accountObj.accountName +' '+ accountObj.last4 for accountObj in accounts">
+              <option value="" disabled>Select a account</option>
+            </select></td>
+            <td>pending</td>
+            <td colspan="2"><button class="btn btn-default" ng-click="save()">Save</button></td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div ng-show="!orderSelected" ng-repeat="ord in searchResult.orders">
+    <div class="panel panel-default">
+      <div class="panel-heading" >
+        <div class="row">
+          <div class="col-md-11">
+            <div class="table-responsive">
+              <table class="table table-condensed" ng-click="setPreview($index)">
+                <tr>
+                  <th>Order Id</th>
+                  <th>User</th>
+                  <th>Email</th>
+                  <th>Beneficiary</th>
+                  <th>Created At</th>
+                  <th>Company</th>
+                  <th>Team</th>
+                  <th>Status</th>
+                  <th>Description</th>
+                </tr>
+                <tr>
+                  <td>{{ord.orderId | uppercase}}</td>
+                  <td>{{ord.paymentsPlan[0].userInfo.userName}}</td>
+                  <td>{{ord.paymentsPlan[0].email}}</td>
+                  <td>{{ord.paymentsPlan[0].beneficiaryInfo.beneficiaryName}}</td>
+                  <td>{{ord.createAt | date}}</td>
+                  <td>{{ord.paymentsPlan[0].productInfo.organizationName}}</td>
+                  <td>{{ord.paymentsPlan[0].productInfo.productName}}</td>
+                  <td>{{ord.status}}</td>
+                  <td>{{ord.description}}</td>
+                </tr>
+              </table>
+
+            </div>
+          </div>
+          <div class="col-md-1">
+            <button ng-if="ord.status ==='active'" class="btn btn-success" ng-click="selectOrder($index)">Edit</button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="table-responsive" ng-show="$index == orderPreview">
+        <table class="table table-condensed">
+          <thead><tr>
+            <th>Description</th>
+            <th>Charge</th>
+            <th>Charge Price</th>
+            <th>Base Price</th>
+            <th>Card</th>
+            <th>Last4</th>
+            <th>Status</th>
+            <th>Processed</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr ng-repeat="pp in ord.paymentsPlan">
+            <td>{{pp.description}}</td>
+            <td>{{pp.dateCharge | date}}</td>
+            <td>{{pp.price | currency}}</td>
+            <td>{{pp.basePrice | currency}}</td>
+            <td>{{pp.accountBrand}}</td>
+            <td>{{pp.last4}}</td>
+            <td>{{pp.status}}</td>
+            <td>{{pp.wasProcessed == true ? "Yes" : "No"}}</td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="table ">
+          <tr>
+            <th ng-repeat="(key, value) in ord.paymentsPlan[0].customInfo.formData">
+              <div ng-repeat="template in ord.paymentsPlan[0].customInfo.formTemplate">
+                <span ng-if="key === template.model">{{template.name}}</span>
+              </div>
+            </th>
+          </tr>
+          <tr>
+            <td ng-repeat="(key, value) in ord.paymentsPlan[0].customInfo.formData">
+              <div ng-repeat="template in ord.paymentsPlan[0].customInfo.formTemplate">
+                <span ng-if="key === template.model && (template.type === 'date' || template.type === 'datetime' || template.type === 'datetime-local')">{{value | date}}</span>
+                <span ng-if="key === template.model && !(template.type === 'date' || template.type === 'datetime' || template.type === 'datetime-local')">{{value}}</span>
+              </div>
+          </tr>
+        </table>
+      </div>
+
+
+    </div>
+  </div>
+
+
+
+
+</div>
+
+<div class="container empty-car text-CS" ng-show="submitted">
+  <loading></loading>
+</div>
+

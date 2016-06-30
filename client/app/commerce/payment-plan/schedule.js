@@ -11,5 +11,14 @@ angular.module('convenienceApp')
         data:{
           roles:['admin']
         }
-      });
+      })
+      .state('order-admin', {
+      url: '/commerce/paymentplan/schedulev3',
+      templateUrl: 'app/commerce/payment-plan/schedule/searchV3.html',
+      controller: 'ScheduleV3Ctrl',
+      auth: true,
+      data:{
+        roles:['admin']
+      }
+    });
   });
