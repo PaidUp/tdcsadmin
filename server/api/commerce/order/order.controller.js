@@ -79,8 +79,6 @@ exports.orderSearch = function(req , res){
 
 exports.editOrder = function(req , res){
 
-  console.log('req.body', req.body)
-
   let user = req.user;
   if (!req.body.orderId) {
     return handleError(res, {name : 'ValidationError' , message : 'order id is required' });
